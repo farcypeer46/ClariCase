@@ -1,6 +1,6 @@
 # ClariCase
 
-We help financial-services teams understand consumer complaints and identify actionable patterns more efficiently than manual review.
+We help financial services teams understand consumer complaints and identify actionable patterns more efficiently than manual review.
 
 **Repository:** https://github.com/farcypeer46/ClariCase
 
