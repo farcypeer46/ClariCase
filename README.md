@@ -1,2 +1,2 @@
 # ClariCase
-Consumer Complaint Intelligence platform
+Consumer Complaint Intelligence Platform.
