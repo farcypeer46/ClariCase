@@ -1,0 +1,11 @@
+{
+  "metric": "autonomous routing rate at >=95% precision",
+  "value": 0.2634,
+  "ece": 0.0408,
+  "operating_points": {
+    "coverage_at_95p": 0.2634,
+    "coverage_at_90p": 0.6575,
+    "coverage_at_85p": 0.8615
+  },
+  "n_test": 6382
+}
