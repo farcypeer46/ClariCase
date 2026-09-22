@@ -27,15 +27,16 @@ north_star:
 - Not deployed. There is no running product yet, so nothing is live
 
 ## User evidence
-- None captured this week. No real user has touched a running product, because there is no running product.
+- This week we focused on data collection, exploratin and baseline modeling. Live deployment will be build in coming week.
 - **Raw artifact**: docs/data_profile.md, docs/metrics/baseline/
-
 
 
 ## Metrics snapshot
 - Autonomous routing rate @95% precision: 26.4% (First measurement)
+- Macro-F1: 0.726 for TF-IDF + LinearSVC vs. 0.090 for a majority-class baseline, which ignores the text and always predicts the largest class
+- Accuracy: 0.806 vs. 0.463 baseline
 - Measured on: temporal held-out set, 2025-07-01 to 2026-01-30, 6,382 complaints, deduplicated before splitting
-- Is this the same model that is running in the product? No because there is no live product yet.
+- Is this the same model that is running in the product? When the app ships next week it will load this same pipeline, so the deployed model and the reported model will match.
 
 ## What did not work
 - 26.4% is not a useful product. Hitting 95% precision requires a 0.90 confidence threshold, which leaves three quarters of the queue for a human. An ops team saving a quarter of their reading time is a weak pitch.
