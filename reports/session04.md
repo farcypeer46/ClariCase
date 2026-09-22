@@ -7,16 +7,13 @@ members:
     github: Sukriti-124
     hat: Product
   - name: Chaitanya Bagul
-    github: <handle>
+    github: elderflamevandle
     hat: Engineering
-  - name: <name>
-    github: <handle>
-    hat: Product | Engineering | Data&Eval | Users&Research | Operations
   - name: Salman Farcy
-    github: <handle>
+    github: farcypeer46
     hat:  Data&Eval 
   - name: Sriramm S S 
-    github: <handle>
+    github: SriRammSS
     hat: Users&Research 
 north_star:
   metric: Autonomous routing rate at >=95% precision
@@ -25,8 +22,8 @@ north_star:
 ---
 
 ## Shipped this week
-- Data pipeline — src/data/{ingest,explore,prepare}.py. Loads the CFPB export, writes a profile to docs/data_profile.md, and produces a cleaned temporal split through a single entry point, get_splits(). 22,465 raw rows to 22,096 after cleaning; 15,714 train / 6,382 test.
-- Baseline model — src/models/baseline.py. Majority-class dummy plus TF-IDF (1,2)-grams into a calibrated LinearSVC. All metrics written to docs/metrics/baseline/.
+- Data pipeline: src/data/{ingest,explore,prepare}.py. Loads the CFPB export, writes a profile to docs/data_profile.md, and produces a cleaned temporal split through a single entry point, get_splits(). 22,465 raw rows to 22,096 after cleaning; 15,714 train / 6,382 test.
+- Baseline model: src/models/baseline.py. Majority-class dummy plus TF-IDF (1,2)-grams into a calibrated LinearSVC. All metrics written to docs/metrics/baseline/.
 - Not deployed. There is no running product yet, so nothing is live
 
 ## User evidence
@@ -50,13 +47,13 @@ north_star:
 ## Challenges / blockers
 - No deployed app. Everything else depends on this. Nothing can be tested with a user until a stranger can open a URL.
 - The task is partly circular as posed. Every complaint in this corpus arrived through the CFPB web form already labelled by the consumer, so predicting the label on this data proves little. The product only makes sense as: learn the taxonomy here, apply it to unlabelled channels elsewhere.
-- Two classes are thin in test — Mortgage (157) and Vehicle loan (104). Per-class recall on these will swing between runs and should be read as noisy, not precise.
+- Two classes are thin in test - Mortgage (157) and Vehicle loan (104). Per-class recall on these will swing between runs and should be read as noisy, not precise.
 ## Next week's goal
-- Widen the corpus. Add Bank of America and Wells Fargo to the current JPMorgan-only data. Today's numbers describe one bank's product mix, so the class floor and the config thresholds get re-checked after the merge — more data may pull Prepaid card or Payday loan back above the cutoff we dropped them at. We will also check whether per-class performance differs by company, since a model can learn "sounds like ells Fargo, therefore credit card" instead of learning the language of card complaints.
-- Move the north star. 26.4% is the number to beat. Three levers, cheapest first: proper calibration (temperature scaling rather than Platt, measured by ECE), then per-class thresholds instead of one global cut, then a fine-tuned transformer. The two worst classes — debt collection at 0.41 recall and money transfer at 0.50 — are where the headroom is, since low-confidence predictions concentrate there.
+- Widen the corpus. Add Bank of America and Wells Fargo to the current JPMorgan-only data. Today's numbers describe one bank's product mix, so the class floor and the config thresholds get re-checked after the merge, more data may pull Prepaid card or Payday loan back above the cutoff we dropped them at. We will also check whether per-class performance differs by company, since a model can learn "sounds like Wells Fargo, therefore credit card" instead of learning the language of card complaints.
+- Move the north star. 26.4% is the number to beat. Three levers, cheapest first: proper calibration (temperature scaling rather than Platt, measured by ECE), then per-class thresholds instead of one global cut, then a fine-tuned transformer. The two worst classes - debt collection at 0.41 recall and money transfer at 0.50 are where the headroom is, since low-confidence predictions concentrate there.
 
 ## Individual contributions
-- Sukriti Srivastava (Product): Data ingestion and exploration  ()
+- Sukriti Srivastava (Product): Data ingestion and exploration
 - Chaitanya Bagul (Engineering): Baseline Modelling 
 - Salman Farcy (Data and Evaluation): Data cleaning  
 - Sriramm S S (Users and Research): Data collection 
