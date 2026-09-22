@@ -100,14 +100,14 @@ or a real shift in what gets filed -- both matter for a temporal split.
 |       |   chars |   tokens |
 |:------|--------:|---------:|
 | count |   22465 |    22465 |
-| mean  |    1352 |      237 |
-| std   |    1465 |      253 |
+| mean  |    1356 |      237 |
+| std   |    1471 |      253 |
 | min   |      14 |        2 |
-| 50%   |     993 |      175 |
-| 90%   |    2751 |      476 |
-| 95%   |    3672 |      639 |
-| 99%   |    6492 |     1161 |
-| max   |   32225 |     5102 |
+| 50%   |     996 |      175 |
+| 90%   |    2764 |      476 |
+| 95%   |    3682 |      639 |
+| 99%   |    6494 |     1161 |
+| max   |   32347 |     5102 |
 
 - Over 128 tokens: **63.4%**
 - Over 256 tokens: **31.9%**
@@ -128,7 +128,7 @@ That last figure sets the truncation length for a transformer. Worth ablating 25
 | Sub-issue |        9.6 |
 | State     |        1.1 |
 
-**Over 20% null:** Tags — check why before building anything on these.
+**Over 20% null:** Tags � check why before building anything on these.
 
 ## Duplicates
 
@@ -137,16 +137,16 @@ That last figure sets the truncation length for a transformer. Worth ablating 25
 
 Largest groups:
 
-1. **41 copies** — `i pulled a copy of my consumer report and noticed some items i would like to dispute i have suffered emotional distress as a result of this matter as a result s...`
-2. **16 copies** — `the existence of a derogatory rating on my account is causing me significant concern i am deeply worried about its potential impact on my credit it has already ...`
-3. **16 copies** — `a collection account is being reported on my credit file that has not been properly validated i exercised my rights under the fair debt collection practices act...`
-4. **10 copies** — `this debt collector engaged in abusive deceptive and unfair practices of the fdcpa which it prohibits more so they didn t follow the proper 5 step validation pr...`
-5. **8 copies** — `i have formally reported an error regarding incorrect information sent by the credit bureau through my email i am disputing a mistake on my credit card statemen...`
+1. **41 copies** � `i pulled a copy of my consumer report and noticed some items i would like to dispute i have suffered emotional distress as a result of this matter as a result s...`
+2. **16 copies** � `the existence of a derogatory rating on my account is causing me significant concern i am deeply worried about its potential impact on my credit it has already ...`
+3. **16 copies** � `a collection account is being reported on my credit file that has not been properly validated i exercised my rights under the fair debt collection practices act...`
+4. **10 copies** � `this debt collector engaged in abusive deceptive and unfair practices of the fdcpa which it prohibits more so they didn t follow the proper 5 step validation pr...`
+5. **8 copies** � `i have formally reported an error regarding incorrect information sent by the credit bureau through my email i am disputing a mistake on my credit card statemen...`
 
 ## Leakage check
 
 Columns that describe what happened *after* routing must never become
 features. Listed here so the exclusion is deliberate, not accidental.
 
-- `Company response to consumer` — post-hoc outcome, exclude
-- `Timely response?` — post-hoc outcome, exclude
+- `Company response to consumer` � post-hoc outcome, exclude
+- `Timely response?` � post-hoc outcome, exclude
