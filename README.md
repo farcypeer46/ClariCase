@@ -14,3 +14,7 @@ We help financial services teams understand consumer complaints and identify act
 | Sukriti Srivastava | Developer, Product |
 | Salman Farcy | Developer, Data and Evaluation |
 | Sriramm S S | Developer, Users and Research |
+
+## Data analysis
+
+- [Bank of America complaint cleaning and EDA](consumer_complaint_eda/README.md): executed notebook, original input, cleaned dataset, and setup instructions.
