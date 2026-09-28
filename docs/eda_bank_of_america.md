@@ -4,9 +4,9 @@ Cleaning and exploratory analysis of 16,407 complaints across eight product cate
 
 ## Files
 
-- `original_dataset.csv`: unchanged copy of the prepared dataset used by the notebook.
-- `consumer_complaint_eda.ipynb`: executed notebook with data quality checks, text-length analysis, product distributions, and final validation.
-- `cleaned_consumer_complaints.csv`: notebook output, retaining all 16,407 rows and seven columns.
+- `data/raw/bank_of_america_complaints.csv`: unchanged copy of the prepared dataset used by the notebook.
+- `notebooks/eda_bank_of_america.ipynb`: executed notebook with data quality checks, text-length analysis, product distributions, and final validation.
+- `data/processed/bank_of_america_cleaned.csv`: notebook output, retaining all 16,407 rows and seven columns.
 
 The notebook normalizes repeated and leading or trailing whitespace in 10,190 narratives. Wording, capitalization, punctuation, numbers, and redactions are preserved. There are no models, embeddings, or train/test splits.
 
@@ -15,14 +15,13 @@ The notebook normalizes repeated and leading or trailing whitespace in 10,190 na
 Use Python 3.12. From the repository root:
 
 ```bash
-cd consumer_complaint_eda
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-jupyter lab consumer_complaint_eda.ipynb
+jupyter lab notebooks/eda_bank_of_america.ipynb
 ```
 
-On Windows, activate the environment with `.venv\Scripts\activate` instead. Run the notebook from beginning to end. It reads `original_dataset.csv` and writes `cleaned_consumer_complaints.csv` in the same folder. The original CSV must be present to rerun the analysis.
+On Windows, activate the environment with `.venv\Scripts\activate` instead. Run the notebook from beginning to end. It reads `data/raw/bank_of_america_complaints.csv` and writes `data/processed/bank_of_america_cleaned.csv`. Paths inside the notebook are relative to `notebooks/`, so open it through Jupyter as above or run it from that directory. The raw CSV must be present to rerun the analysis.
 
 ## Dataset scope
 
