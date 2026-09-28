@@ -40,6 +40,16 @@ north_star:
 
 ## Metrics snapshot
 - Autonomous routing rate @95% precision: not re-measured. The number below is last week's and refers to a different task.
+- Baselines any model on the new corpus must beat, computed from issue_mapping.csv and team_coverage.csv:
+
+| Task | Classes | Majority-class accuracy | Majority-class macro-F1 | Imbalance |
+|---|---|---|---|---|
+| Team routing | 11 | **0.6176** | 0.0694 | 178:1 |
+| Product-issue | 73 | 0.3105 | 0.0065 | 627:1 |
+
+- The Credit Reporting Team alone is 61.8% of the corpus, 645,108 of 1,044,615 records. A model that always predicts it is right 61.8% of the time, so accuracy is close to meaningless here and macro-F1 is the only honest headline.
+- Class sizes at the 73-label target run from 324,392 (`Credit reporting :: Incorrect information on your report`, 31.1% of the dataset on its own) down to 517, with a median of 3,274.
+- Team mix drifts over the corpus window. Comparing the pre-July-2025 records with October–December 2025: Credit Reporting falls 10.0 points, 63.1% to 53.1%, while Debt Collection rises 3.6, Credit Card 2.4 and Banking Accounts 2.1. A random split would hide this; the grouped split does not account for it either, since it groups by near-duplicate text rather than by date.
 - Previous: 26.4% at >=95% precision, ECE 0.0408, on 6,382 JPMorgan test complaints predicting 7 product classes. Session 04 reported 11 product categories in the corpus, but four fell below the class floor and the committed classification report covers seven.
 - The new team classifier writes metrics.json, classification_report.json, confusion_matrix.csv and predictions_test.csv to src/baseline_model_1/artifacts/, but that path is gitignored, so no measurement from it is in the repository.
 - Is this the same model that is running in the product? There is still no product. Nothing is deployed.
@@ -59,7 +69,8 @@ north_star:
 - The north star has not moved because it has not been measured. We cannot say whether the larger corpus helped, hurt, or changed nothing.
 - Reproducibility gap. Metrics and splits are gitignored and the full CSV is absent, so no result in this repository can currently be reproduced from a clean clone.
 - Task definition shifted mid-project. Session 04 measured product classification; session 05 builds team routing over issue labels. Prior numbers are now historical, not a baseline to beat.
-- Class imbalance is unexamined at the new granularity. The 73 issue labels each clear 517 narratives, but the spread between largest and smallest is not reported anywhere.
+- Severe class imbalance at both granularities, 178:1 across teams and 627:1 across issue labels. One team is 61.8% of the corpus and one issue label is 31.1%, so the majority-class floor is high and macro-F1 will be dominated by the long tail. Whether to reweight, resample or accept it is undecided.
+- The front end does not exist yet. The routing model has no interface, so there is still nothing a user can open, which is why the user-evidence section is empty for the second session running.
 
 ## Next week's goal
 <!-- Sukriti to write and commit this section. -->
