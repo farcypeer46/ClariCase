@@ -26,7 +26,7 @@ north_star:
 - Target changed. Last week we predicted Product directly, 11 classes. We now predict `product_issue_id`, 73 classes such as `Credit card :: Fees or interest`, and obtain the team by lookup through issue_mapping.csv. Routing became a deterministic join rather than a second model.
 - Team classifier baseline: src/baseline_model_1/. TF-IDF into Multinomial Naive Bayes over `complaint_text`, predicting `team_id`, with a majority-class dummy for comparison. Splits are 60/20/20 and grouped by `leakage_group_id` so near-identical narratives cannot straddle train and test.
 - Per-bank EDA, on branches and not merged. Wells Fargo, 16,883 complaints across 8 products (`datawellsfargo/eda`); Bank of America, 16,407 across 8 products (`databofa/eda`). Both restructured to match main's layout with bank-prefixed filenames.
-- Still not deployed. There is no running product, so nothing is live.
+- Front end in progress, not yet live. A teammate is building the interface and expects to deploy it by the end of today. Nothing is live at the time of writing.
 
 ## What changed since session 04
 - Corpus: 22,465 JPMorgan complaints became 1,044,615 across 3,801 companies, a 46x increase. Last week's numbers described one bank's product mix; the company-confound question we raised is now testable.
@@ -70,7 +70,7 @@ north_star:
 - Reproducibility gap. Metrics and splits are gitignored and the full CSV is absent, so no result in this repository can currently be reproduced from a clean clone.
 - Task definition shifted mid-project. Session 04 measured product classification; session 05 builds team routing over issue labels. Prior numbers are now historical, not a baseline to beat.
 - Severe class imbalance at both granularities, 178:1 across teams and 627:1 across issue labels. One team is 61.8% of the corpus and one issue label is 31.1%, so the majority-class floor is high and macro-F1 will be dominated by the long tail. Whether to reweight, resample or accept it is undecided.
-- The front end does not exist yet. The routing model has no interface, so there is still nothing a user can open, which is why the user-evidence section is empty for the second session running.
+- The front end is in progress and expected to deploy by the end of today. It is not live at the time of writing, which is why the user-evidence section is empty for the second session running. Once the URL exists it should replace this line and the "not deployed" note above.
 
 ## Next week's goal
 <!-- Sukriti to write and commit this section. -->
