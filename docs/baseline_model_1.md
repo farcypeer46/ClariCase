@@ -108,5 +108,5 @@ Training writes the following local files under `reports/baseline/`:
 | `confusion_matrix.csv` | Actual versus predicted class counts |
 | `predictions.csv` | Actual and predicted labels for every test record |
 
-The implementation is located in `src/models/baseline.py`. No Git commit or
+The implementation is located in `src/models/baseline_model_1.py`. No Git commit or
 push is required to run the pipeline locally.

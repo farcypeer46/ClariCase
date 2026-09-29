@@ -10,9 +10,7 @@ create table if not exists public.complaints (
   status         text not null default 'Received'
 );
 
--- The app connects with the anon (publishable) key, which only ever lives in
--- Streamlit secrets on the server. These policies let it add and look up
--- complaints; it cannot update or delete them.
+
 alter table public.complaints enable row level security;
 
 create policy "app can insert complaints"

@@ -235,7 +235,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=ROOT / "docs" / "metrics" / "baseline",
+        default=ROOT / "docs" / "metrics" / "baseline_model_1",
         help="Directory for the model and evaluation artifacts.",
     )
     parser.add_argument(
