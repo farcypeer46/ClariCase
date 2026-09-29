@@ -1,5 +1,7 @@
 pandas
+numpy
 scikit-learn
+joblib
 pyarrow
 tabulate
 streamlit
