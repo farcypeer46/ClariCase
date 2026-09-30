@@ -35,3 +35,9 @@ data/raw/complaints.csv
 data/processed/
 
 src/app/.streamlit_secrets.toml
+
+# ---------------------------------------------------------------- improved models
+data/cache/
+*.npy
+*.kv
+**/checkpoints/
