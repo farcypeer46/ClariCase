@@ -1,0 +1,15 @@
+# Training-only dependencies. NOT installed by Streamlit Community Cloud.
+# Install locally with: pip install -r requirements-train.txt
+#
+# torch: install the CUDA build separately, e.g.
+#   python -m pip install --force-reinstall --no-deps torch \
+#       --index-url https://download.pytorch.org/whl/cu121
+# The unpinned entry below is only for CPU fallback / CI.
+torch
+gensim
+sentence-transformers
+transformers
+datasets
+accelerate
+peft
+captum
