@@ -20,6 +20,7 @@ USECOLS = [ID_COL, DATE_COL, "company", TEXT_COL, TEAM_COL, "team_name",
            "product_issue_id", GROUP_COL]
 
 RANDOM_SEED = 42
+CHUNKSIZE = 100_000
 TRAIN_END = "2025-07-01"
 VAL_END = "2025-10-01"
 TEST_END = "2026-01-01"
