@@ -1,0 +1,74 @@
+product_issue_id,issue_id,team_id,issue_label
+T01_I001,T01_I001,T01,Credit reporting or other personal consumer reports :: Credit monitoring or identity theft protection services
+T01_I003,T01_I001,T01,Credit reporting or other personal consumer reports :: Identity theft protection or other monitoring services
+T01_I004,T01_I004,T01,Credit reporting or other personal consumer reports :: Improper use of your report
+T01_I005,T01_I005,T01,Credit reporting or other personal consumer reports :: Incorrect information on your report
+T01_I007,T01_I008,T01,Credit reporting or other personal consumer reports :: Problem with a company's investigation into an existing issue
+T01_I008,T01_I008,T01,Credit reporting or other personal consumer reports :: Problem with a company's investigation into an existing problem
+T01_I010,T01_I010,T01,Credit reporting or other personal consumer reports :: Problem with fraud alerts or security freezes
+T01_I012,T01_I012,T01,Credit reporting or other personal consumer reports :: Unable to get your credit report or credit score
+T02_I001,T02_I001,T02,Debt collection :: Attempts to collect debt not owed
+T02_I002,T02_I002,T02,Debt collection :: Communication tactics
+T02_I003,T02_I003,T02,Debt collection :: Electronic communications
+T02_I004,T02_I004,T02,Debt collection :: False statements or representation
+T02_I005,T02_I005,T02,Debt collection :: Threatened to contact someone or share information improperly
+T02_I006,T02_I006,T02,Debt collection :: Took or threatened to take negative or legal action
+T02_I007,T02_I007,T02,Debt collection :: Written notification about debt
+T03_I001,T03_I001,T03,"Credit card :: Advertising and marketing, including promotional offers"
+T03_I002,T03_I002,T03,Credit card :: Closing your account
+T03_I004,T03_I004,T03,Credit card :: Fees or interest
+T03_I005,T03_I005,T03,Credit card :: Getting a credit card
+T03_I006,T03_I006,T03,Credit card :: Improper use of your report
+T03_I007,T03_I007,T03,Credit card :: Incorrect information on your report
+T03_I008,T03_I008,T03,"Credit card :: Other features, terms, or problems"
+T03_I009,T03_I009,T03,Credit card :: Problem when making payments
+T03_I010,T03_I010,T03,Credit card :: Problem with a company's investigation into an existing problem
+T03_I011,T03_I011,T03,Credit card :: Problem with a purchase shown on your statement
+T03_I013,T03_I013,T03,Credit card :: Struggling to pay your bill
+T03_I014,T03_I014,T03,Credit card :: Trouble using your card
+T04_I001,T04_I001,T04,Checking or savings account :: Closing an account
+T04_I005,T04_I005,T04,Checking or savings account :: Managing an account
+T04_I006,T04_I006,T04,Checking or savings account :: Opening an account
+T04_I007,T04_I007,T04,Checking or savings account :: Problem caused by your funds being low
+T04_I009,T04_I009,T04,Checking or savings account :: Problem with a lender or other company charging your account
+T05_I002,T05_I002,T05,"Money transfer, virtual currency, or money service :: Confusing or missing disclosures"
+T05_I003,T05_I003,T05,"Money transfer, virtual currency, or money service :: Fraud or scam"
+T05_I006,T05_I006,T05,"Money transfer, virtual currency, or money service :: Managing, opening, or closing your mobile wallet account"
+T05_I007,T05_I007,T05,"Money transfer, virtual currency, or money service :: Money was not available when promised"
+T05_I008,T05_I008,T05,"Money transfer, virtual currency, or money service :: Other service problem"
+T05_I009,T05_I009,T05,"Money transfer, virtual currency, or money service :: Other transaction problem"
+T05_I012,T05_I012,T05,"Money transfer, virtual currency, or money service :: Problem with customer service"
+T05_I013,T05_I013,T05,"Money transfer, virtual currency, or money service :: Trouble accessing funds in your mobile or digital wallet"
+T05_I014,T05_I014,T05,"Money transfer, virtual currency, or money service :: Unauthorized transactions or other transaction problem"
+T05_I015,T05_I015,T05,"Money transfer, virtual currency, or money service :: Unexpected or other fees"
+T06_I001,T06_I001,T06,Mortgage :: Applying for a mortgage or refinancing an existing mortgage
+T06_I002,T06_I002,T06,Mortgage :: Closing on a mortgage
+T06_I005,T06_I005,T06,Mortgage :: Incorrect information on your report
+T06_I008,T06_I008,T06,Mortgage :: Struggling to pay mortgage
+T06_I009,T06_I009,T06,Mortgage :: Trouble during payment process
+T07_I002,T07_I002,T07,Student loan :: Dealing with your lender or servicer
+T07_I004,T07_I004,T07,Student loan :: Improper use of your report
+T07_I005,T07_I005,T07,Student loan :: Incorrect information on your report
+T07_I010,T07_I010,T07,Student loan :: Struggling to repay your loan
+T08_I002,T08_I002,T08,Vehicle loan or lease :: Getting a loan or lease
+T08_I004,T08_I004,T08,Vehicle loan or lease :: Incorrect information on your report
+T08_I005,T08_I005,T08,Vehicle loan or lease :: Managing the loan or lease
+T08_I008,T08_I008,T08,Vehicle loan or lease :: Problems at the end of the loan or lease
+T08_I009,T08_I009,T08,Vehicle loan or lease :: Repossession
+T08_I010,T08_I010,T08,Vehicle loan or lease :: Struggling to pay your loan
+T09_I003,T09_I003,T09,"Payday loan, title loan, personal loan, or advance loan :: Charged fees or interest you didn't expect"
+T09_I009,T09_I009,T09,"Payday loan, title loan, personal loan, or advance loan :: Getting the loan"
+T09_I011,T09_I011,T09,"Payday loan, title loan, personal loan, or advance loan :: Incorrect information on your report"
+T09_I016,T09_I016,T09,"Payday loan, title loan, personal loan, or advance loan :: Problem when making payments"
+T09_I018,T09_I018,T09,"Payday loan, title loan, personal loan, or advance loan :: Problem with additional add-on products or services"
+T09_I021,T09_I021,T09,"Payday loan, title loan, personal loan, or advance loan :: Problem with the payoff process at the end of the loan"
+T09_I026,T09_I026,T09,"Payday loan, title loan, personal loan, or advance loan :: Struggling to pay your loan"
+T10_I002,T10_I002,T10,Prepaid card :: Problem getting a card or closing an account
+T10_I003,T10_I003,T10,Prepaid card :: Problem with a purchase or transfer
+T10_I005,T10_I005,T10,Prepaid card :: Trouble using the card
+T10_I006,T10_I006,T10,Prepaid card :: Unexpected or other fees
+T11_I001,T11_I001,T11,Debt or credit management :: Charged upfront or unexpected fees
+T11_I002,T11_I002,T11,Debt or credit management :: Confusing or misleading advertising or marketing
+T11_I003,T11_I003,T11,Debt or credit management :: Confusing or missing disclosures
+T11_I004,T11_I004,T11,Debt or credit management :: Didn't provide services promised
+T11_I005,T11_I005,T11,Debt or credit management :: Problem with customer service
