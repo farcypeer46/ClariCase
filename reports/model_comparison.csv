@@ -1,0 +1,2 @@
+timestamp,model,train_set,eval_set,team_acc,team_macro_f1,issue_macro_f1,issue_top3,joint_exact,north_star_coverage_95,precision_at_95_threshold,per_team_thr_coverage_95,teams_below_floor,ece,n_eval,git_commit
+2026-10-01T16:36:58+00:00,baseline_model_2,3k_team,test,0.7999435511772311,0.6474711957925506,,,,0.4646,0.9444,,T09,0.0259,109834,264addd
