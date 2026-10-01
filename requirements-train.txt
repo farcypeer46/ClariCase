@@ -13,3 +13,6 @@ datasets
 accelerate
 peft
 captum
+
+# Test tooling
+pytest
