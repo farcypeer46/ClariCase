@@ -1,0 +1,40 @@
+{
+  "model_name": "improved_model_1",
+  "train_set": "train_cap_issue",
+  "val_protocol": "shared",
+  "best_C_team": 0.25,
+  "best_C_issue": 0.1,
+  "n_train": 257694,
+  "n_val": 153502,
+  "n_test": 109834,
+  "n_holdout_2026": 29798,
+  "wall_clock_sec": 16023.7,
+  "artifact_size_mb": 66.15,
+  "global_threshold": 0.818,
+  "per_team_thresholds": {
+    "T01": 0.714,
+    "T02": null,
+    "T03": 0.876,
+    "T04": 0.89,
+    "T05": 0.968,
+    "T06": 0.832,
+    "T07": 0.946,
+    "T08": 0.956,
+    "T09": 0.884,
+    "T10": 0.888,
+    "T11": null
+  },
+  "gpu_info": {
+    "torch": "2.14.0+cu126",
+    "cuda_available": true,
+    "device_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "total_vram_gb": 6.0,
+    "cuda_version": "12.6"
+  },
+  "sklearn_version": "1.9.1",
+  "args": {
+    "no_char": false,
+    "quiet": false,
+    "skip_refs": false
+  }
+}

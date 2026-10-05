@@ -48,6 +48,11 @@ def _build_tables() -> tuple[pd.DataFrame, dict, dict, dict]:
 
 _canonical_df, issue_to_team, team_to_issues, team_names = _build_tables()
 
+issue_labels: dict[str, str] = (
+    dict(zip(_canonical_df["issue_id"], _canonical_df["issue_label"]))
+    if "issue_label" in _canonical_df.columns else {}
+)
+
 
 def team_issue_mask(issue_classes: list[str],
                     team_classes: list[str]) -> np.ndarray:

@@ -1,0 +1,46 @@
+{
+  "team_grid": [
+    {
+      "C_team": 0.1,
+      "val_team_macro_f1": 0.6729651612082455
+    },
+    {
+      "C_team": 0.25,
+      "val_team_macro_f1": 0.6741701921408239
+    },
+    {
+      "C_team": 0.5,
+      "val_team_macro_f1": 0.6710462127478884
+    },
+    {
+      "C_team": 1.0,
+      "val_team_macro_f1": 0.6657084804316401
+    }
+  ],
+  "issue_grid": [
+    {
+      "C_issue": 0.1,
+      "val_issue_macro_f1_oracle": 0.515794372868519
+    },
+    {
+      "C_issue": 0.25,
+      "val_issue_macro_f1_oracle": 0.5112155268390102
+    },
+    {
+      "C_issue": 0.5,
+      "val_issue_macro_f1_oracle": 0.5023839222189986
+    },
+    {
+      "C_issue": 1.0,
+      "val_issue_macro_f1_oracle": 0.49135239150761884
+    }
+  ],
+  "best_team": {
+    "C_team": 0.25,
+    "val_team_macro_f1": 0.6741701921408239
+  },
+  "best_issue": {
+    "C_issue": 0.1,
+    "val_issue_macro_f1_oracle": 0.515794372868519
+  }
+}

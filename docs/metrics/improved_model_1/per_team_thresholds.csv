@@ -1,0 +1,12 @@
+team_id,team_name,threshold,n_routed_to,precision_routed,auto_routed_share
+T01,Credit Reporting Team,0.714,51200,0.9431,0.8359
+T02,Debt Collection Team,,0,,0.1118
+T03,Credit Card Team,0.876,3321,0.9633,0.4068
+T04,Banking Accounts Team,0.89,3039,0.946,0.2927
+T05,Money Transfers & Digital Currency Team,0.968,59,0.9322,0.0309
+T06,Mortgage Team,0.832,2153,0.9642,0.6273
+T07,Student Loan Team,0.946,232,0.9914,0.1931
+T08,Vehicle Finance Team,0.956,66,0.9545,0.069
+T09,Personal & Short-Term Loans Team,0.884,123,0.9512,0.1238
+T10,Prepaid Card Team,0.888,151,0.9536,0.1834
+T11,Debt & Credit Management Team,,0,,0.212

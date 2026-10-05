@@ -1,0 +1,6 @@
+{
+  "accuracy_predicted_team": 0.5613653331391009,
+  "macro_f1_predicted_team": 0.3667269927745383,
+  "accuracy_oracle_team": 0.6524664493690479,
+  "macro_f1_oracle_team": 0.5114823533973801
+}
