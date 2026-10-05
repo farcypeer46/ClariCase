@@ -20,8 +20,7 @@ src/app/.streamlit_secrets.toml
 !.vscode/settings.json
 .idea/
 .DS_Store
-.claude/
-
+plans/
 # ---------------------------------------------------------------- data splits & artifacts
 data/processed/splits/
 
@@ -34,7 +33,6 @@ data/app/
 # ---------------------------------------------------------------- large data files
 data/raw/complaints.csv
 data/processed/
-
 src/app/.streamlit_secrets.toml
 
 # ---------------------------------------------------------------- improved models
