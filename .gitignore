@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 venv/
 env/
+docs/plans/*
 
 # ---------------------------------------------------------------- secrets
 .env
@@ -20,7 +21,7 @@ src/app/.streamlit_secrets.toml
 !.vscode/settings.json
 .idea/
 .DS_Store
-plans/
+
 # ---------------------------------------------------------------- data splits & artifacts
 data/processed/splits/
 
