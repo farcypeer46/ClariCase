@@ -1,7 +1,9 @@
 pandas
 numpy
-scikit-learn
+# Pinned: the deployed model was saved with this version and must be loaded with it.
+scikit-learn==1.9.1
 joblib
 pyarrow
 tabulate
 streamlit
+supabase

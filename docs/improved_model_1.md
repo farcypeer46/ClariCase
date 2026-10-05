@@ -95,8 +95,13 @@ Two thresholds, both fit on validation and frozen for test:
   (`0.818`).
 - **Per-team**: for each predicted team, the lowest threshold at which
   routed-to-team validation precision ≥ 95% (`T01 → 0.714`, `T05 → 0.968`,
-  etc.). Teams that cannot reach 95% are never auto-routed; T02 and T11
+  etc.). Teams that cannot reach 95% get no per-team threshold; T02 and T11
   fall into that category.
+
+The served `route` field uses the **global** threshold. It is the evaluated
+headline operating point and, on test, beats per-team thresholds on both
+coverage and overall precision (61.5% at 94.8% vs 54.9% at 94.5%). Per-team
+thresholds are reported below for analysis.
 
 ### Hyperparameter search
 
@@ -358,7 +363,8 @@ python -m src.improved_model_1.predict "A debt collector keeps calling me about 
 
 Output JSON contains `predicted_team_id`, `predicted_team_name`,
 `confidence`, `top_k` (teams), `issue_top_k` (issue IDs + labels + scores),
-`route` (`"auto"` or `"review"` depending on the team's threshold), and
+`route` (`"auto"` when confidence ≥ the global threshold 0.818, otherwise
+`"review"`), and
 `model_name`.
 
 ### Full test suite

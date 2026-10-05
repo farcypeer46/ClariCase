@@ -6,8 +6,8 @@ Short teammate-facing guide. Full write-up is in
 Model type: **hierarchical TF-IDF + Linear SVM** (team then issue), isotonic
 calibration on validation, global + per-team routing thresholds.
 
-Status: trained on branch `improved_model_1`, **not yet deployed**.
-Baseline 2 remains the model served by the Streamlit app.
+Status: trained on branch `improved_model_1`, and served by the Streamlit
+app on this branch (live once the branch is deployed).
 
 ---
 

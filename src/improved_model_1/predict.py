@@ -33,7 +33,6 @@ def predict(text: str, top_k: int = 3, model=None) -> dict:
     team_classes = np.asarray(bundle["team_classes"])
     issue_labels = bundle.get("issue_labels", {}) or {}
     global_thr = bundle.get("global_threshold")
-    per_team_thr = bundle.get("per_team_thresholds", {}) or {}
     model_name = bundle.get("model_name", "improved_model_1")
 
     team_lookup = _team_names()
@@ -58,10 +57,11 @@ def predict(text: str, top_k: int = 3, model=None) -> dict:
         "confidence": conf,
     } for iid, conf in issue_top_raw]
 
-    threshold = per_team_thr.get(predicted_team_id)
-    if threshold is None:
-        threshold = global_thr
-    route = "auto" if (threshold is not None and confidence >= threshold) else "review"
+    # Served routing uses the single global threshold: the evaluated headline
+    # operating point (61.5% auto-routed at 94.8% precision on test). Per-team
+    # thresholds stay in the bundle for analysis but do not drive routing.
+    route = ("auto" if global_thr is not None and confidence >= global_thr
+             else "review")
 
     return {
         "predicted_team_id": predicted_team_id,

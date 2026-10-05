@@ -112,10 +112,11 @@ the printed `team_id` / `issue_id`.
 ```
 
 - `confidence` is a calibrated probability (not a raw score).
-- `route: "auto"` means confidence ≥ the predicted team's threshold
-  (T01 ≥ 0.714, T05 ≥ 0.968, etc.) — safe to auto-forward.
+- `route: "auto"` means confidence ≥ the global threshold (0.818), the
+  operating point that auto-routes 61.5% of test complaints at 94.8%
+  precision — safe to auto-forward.
 - `route: "review"` means a human should see it first.
-- T02 and T11 are **never** auto-routed (can't reach 95% precision reliably).
+- Per-team thresholds are reported for analysis but do not drive `route`.
 
 ---
 
@@ -228,15 +229,17 @@ Get-Content -Wait F:\NLP_MSML641\docs\metrics\improved_model_1\train.log -Tail 5
 
 ---
 
-## 6. Run the deployed Baseline 2 (what the Streamlit app serves)
+## 6. Run the Streamlit app (serves Improved Model 1)
+
+The app routes with Improved Model 1. Baseline 2 can still be run directly:
 
 ```powershell
 python -m src.baseline_model_2.predict "My credit report shows an account that is not mine"
 ```
-Note the output here has fewer fields than Improved Model 1 — no `issue_top_k`,
+Its output has fewer fields than Improved Model 1 — no `issue_top_k`,
 no `route`, no `model_name`.
 
-### Launch the local Streamlit app (uses Baseline 2 by default)
+### Launch the local Streamlit app
 ```powershell
 python -m streamlit run streamlit_app.py
 ```
