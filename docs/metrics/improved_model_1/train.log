@@ -1,0 +1,43 @@
+[load] splits from F:\NLP_MSML641\data\cache\splits_v2
+[data] train=257,694  val=153,502  test=109,834  holdout=29,798
+[vec] use_char=True word_max=150000 char_max=150000
+[tune] grid search on validation
+  [tune] C_team=0.1 ...
+      val team macro-F1 = 0.6730
+  [tune] C_team=0.25 ...
+      val team macro-F1 = 0.6742
+  [tune] C_team=0.5 ...
+      val team macro-F1 = 0.6710
+  [tune] C_team=1.0 ...
+      val team macro-F1 = 0.6657
+  [tune] C_team=0.25 C_issue=0.1 (oracle team) ...
+      val issue macro-F1 (oracle) = 0.5158
+  [tune] C_team=0.25 C_issue=0.25 (oracle team) ...
+      val issue macro-F1 (oracle) = 0.5112
+  [tune] C_team=0.25 C_issue=0.5 (oracle team) ...
+      val issue macro-F1 (oracle) = 0.5024
+  [tune] C_team=0.25 C_issue=1.0 (oracle team) ...
+      val issue macro-F1 (oracle) = 0.4914
+[tune] best C_team=0.25 C_issue=0.1
+[fit] refitting on train with best Cs
+  [calibrate] isotonic on validation
+  [route] computing north-star + per-team thresholds
+
+[results]
+  metric          dummy(val)  model(val)  dummy(test)  model(test)
+  accuracy             0.139       0.850        0.147        0.844
+  macro_f1             0.022       0.709        0.023        0.726
+  weighted_f1          0.034       0.848        0.038        0.840
+
+  [north star] coverage 61.5% (95% CI 61.2%-61.8%) at precision 94.8% (95% CI 94.6%-95.0%), threshold 0.818
+  [per-team thr] coverage 54.9% precision 94.5%
+  [issue] macro-F1 (pred team) = 0.367 | oracle = 0.511
+  [artifact] model.joblib = 66.2 MB
+  [guardrail] teams below 0.85 floor: none
+
+[refs] flat_issue_ablation (word-only TF-IDF, LinearSVC on issue; team via mapping)
+[refs] nb_reference_cap_issue (baseline 2 recipe on cap_issue)
+[refs] dummy_most_frequent
+[refs] baseline_model_2 on 2026 holdout (committed model)
+
+[done] total 18255.5s -> F:\NLP_MSML641\docs\metrics\improved_model_1

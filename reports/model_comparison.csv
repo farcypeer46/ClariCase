@@ -1,0 +1,8 @@
+timestamp,model,train_set,eval_set,team_acc,team_macro_f1,issue_macro_f1,issue_top3,joint_exact,north_star_coverage_95,precision_at_95_threshold,per_team_thr_coverage_95,teams_below_floor,ece,n_eval,git_commit
+2026-10-01T16:36:58+00:00,baseline_model_2,3k_team,test,0.7999435511772311,0.6474711957925506,,,,0.4646,0.9444,,T09,0.0259,109834,264addd
+2026-10-01T21:56:15+00:00,improved_model_1,train_cap_issue,test,0.8435639237394613,0.7259838545614182,0.3667269927745383,,0.5613653331391009,0.615,0.9478,0.5494,,0.026,109834,4e81dca
+2026-10-01T22:15:13+00:00,flat_issue_ablation,train_cap_issue,test,,0.6311630279136521,0.3121552541081008,,,,,,,,109834,4e81dca
+2026-10-01T22:20:57+00:00,nb_reference_cap_issue,train_cap_issue,test,,0.6684197755810781,,,,,,,,,109834,4e81dca
+2026-10-01T22:20:59+00:00,dummy_most_frequent,train_cap_issue,test,,0.023264643256703597,,,,,,,,,109834,4e81dca
+2026-10-01T22:21:21+00:00,baseline_model_2,3k_team,holdout_2026,,0.6062187296894895,,,,,,,,,29798,4e81dca
+2026-10-01T22:29:01+00:00,improved_model_1,train_cap_issue,holdout_2026,0.7672662594805021,0.6973885372341622,0.3539247808556832,,0.510336264178804,,,,,,29798,4e81dca

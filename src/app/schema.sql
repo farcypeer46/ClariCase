@@ -7,16 +7,18 @@ create table if not exists public.complaints (
   team_id        text not null,
   team_name      text not null,
   confidence     real not null,
-  status         text not null default 'Received'
+  status         text not null default 'Received',  -- Routed / Under review
+  issue_id       text,
+  issue_label    text,
+  route          text                               -- auto / review
 );
 
--- The app connects with the anon (publishable) key, which only ever lives in
--- Streamlit secrets on the server. These policies let it add and look up
--- complaints; it cannot update or delete them.
+
+alter table public.complaints add column if not exists issue_id    text;
+alter table public.complaints add column if not exists issue_label text;
+alter table public.complaints add column if not exists route       text;
+
+
 alter table public.complaints enable row level security;
 
-create policy "app can insert complaints"
-  on public.complaints for insert to anon with check (true);
 
-create policy "app can read complaints"
-  on public.complaints for select to anon using (true);

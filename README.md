@@ -37,6 +37,25 @@ Naive Bayes classifier, trained on CFPB complaints from all companies
 
 Full details are in [docs/baseline_model_2.md](docs/baseline_model_2.md).
 
+### Improved Model 1 
+
+A hierarchical TF-IDF + Linear SVM classifier that predicts the team **and**
+suggests the specific issue within that team. Trained on a larger per-issue
+capped sample (~259k rows), with per-team routing thresholds and the same
+isotonic calibration protocol as Baseline 2.
+
+| Metric (same test set as Baseline 2) | Baseline 2 | **Improved Model 1** |
+|---|---:|---:|
+| Accuracy | 0.800 | **0.844** |
+| Macro F1 | 0.647 | **0.726** |
+| Auto-routed at 95% precision | 46.5% (at 94.4%) | **61.5%** (at 94.8%) |
+| Teams below 0.85 precision floor | T09 | **none** |
+| Issue macro-F1 (predicted team) | — | 0.367 |
+
+Full write-up: [docs/improved_model_1.md](docs/improved_model_1.md).
+This model is **not yet served** by the Streamlit app; Baseline 2 remains
+the default until the app-integration step is signed off.
+
 ## Repository layout
 
 | Path | Contents |
@@ -45,10 +64,15 @@ Full details are in [docs/baseline_model_2.md](docs/baseline_model_2.md).
 | `src/app/` | Complaint storage (Supabase or local SQLite) and the Supabase table schema |
 | `src/baseline_model_2/` | Running model: splits, training, evaluation, prediction |
 | `src/baseline_model_1/` | Earlier product classifier (JPMorgan Chase data only) |
+| `src/improved_model_1/` | Hierarchical TF-IDF + Linear SVM (team then issue) |
+| `src/utils/` | Shared library: splits, metrics, routing, labels, device, registry |
 | `src/data/` | Data pipeline for Baseline 1 |
+| `tests/` | Unit + parity tests (`pytest -q` runs everything, `-m slow` for data-heavy) |
 | `docs/` | Model write-ups; metrics and artifacts under `docs/metrics/` |
+| `docs/plans/` | Task-level execution plans for improved models |
 | `data/processed/` | Constructed all-company dataset and its documentation |
-| `reports/` | Weekly session reports |
+| `data/cache/` | Local-only Parquet splits and model caches (gitignored) |
+| `reports/` | Weekly session reports and `model_comparison.csv` |
 
 ## Local setup
 

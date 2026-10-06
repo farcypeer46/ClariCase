@@ -17,7 +17,11 @@ LOCAL_DB = Path(__file__).resolve().parents[2] / "data" / "app" / "complaints.db
 # No 0/O or 1/I, so IDs are easy to read back.
 ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 COLUMNS = ["tracking_id", "submitted_at", "complaint_text", "team_id",
-           "team_name", "confidence", "status"]
+           "team_name", "confidence", "status", "issue_id", "issue_label",
+           "route"]
+# Added after the first release; nullable so older rows stay valid.
+ADDED_COLUMNS = {"issue_id": "TEXT", "issue_label": "TEXT", "route": "TEXT"}
+STATUS_BY_ROUTE = {"auto": "Routed", "review": "Under review"}
 
 
 def new_tracking_id() -> str:
@@ -31,6 +35,8 @@ def normalise_tracking_id(raw: str) -> str:
 
 
 def build_record(text: str, prediction: dict) -> dict:
+    top_issue = (prediction.get("issue_top_k") or [{}])[0]
+    route = prediction.get("route")
     return {
         "tracking_id": new_tracking_id(),
         "submitted_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -38,7 +44,10 @@ def build_record(text: str, prediction: dict) -> dict:
         "team_id": prediction["predicted_team_id"],
         "team_name": prediction["predicted_team_name"],
         "confidence": round(prediction["confidence"], 4),
-        "status": "Received",
+        "status": STATUS_BY_ROUTE.get(route, "Received"),
+        "issue_id": top_issue.get("issue_id"),
+        "issue_label": top_issue.get("issue_label"),
+        "route": route,
     }
 
 
@@ -73,6 +82,12 @@ class LocalStore:
                 team_name TEXT NOT NULL,
                 confidence REAL NOT NULL,
                 status TEXT NOT NULL DEFAULT 'Received')""")
+            # Bring databases created before ADDED_COLUMNS up to date.
+            have = {r["name"] for r in con.execute(
+                f"PRAGMA table_info({TABLE})")}
+            for name, sql_type in ADDED_COLUMNS.items():
+                if name not in have:
+                    con.execute(f"ALTER TABLE {TABLE} ADD COLUMN {name} {sql_type}")
 
     def _connect(self) -> sqlite3.Connection:
         con = sqlite3.connect(self.path)

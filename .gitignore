@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 venv/
 env/
+docs/plans/*
 
 # ---------------------------------------------------------------- secrets
 .env
@@ -33,5 +34,10 @@ data/app/
 # ---------------------------------------------------------------- large data files
 data/raw/complaints.csv
 data/processed/
-
 src/app/.streamlit_secrets.toml
+
+# ---------------------------------------------------------------- improved models
+data/cache/
+*.npy
+*.kv
+**/checkpoints/
