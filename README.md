@@ -37,7 +37,7 @@ Naive Bayes classifier, trained on CFPB complaints from all companies
 
 Full details are in [docs/baseline_model_2.md](docs/baseline_model_2.md).
 
-### Improved Model 1 (not yet deployed)
+### Improved Model 1 
 
 A hierarchical TF-IDF + Linear SVM classifier that predicts the team **and**
 suggests the specific issue within that team. Trained on a larger per-issue

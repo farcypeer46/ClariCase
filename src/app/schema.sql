@@ -21,8 +21,4 @@ alter table public.complaints add column if not exists route       text;
 
 alter table public.complaints enable row level security;
 
-create policy "app can insert complaints"
-  on public.complaints for insert to anon with check (true);
 
-create policy "app can read complaints"
-  on public.complaints for select to anon using (true);
