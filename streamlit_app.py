@@ -3,6 +3,7 @@
 Run: streamlit run streamlit_app.py
 """
 
+import time
 from datetime import datetime
 
 import streamlit as st
@@ -13,10 +14,18 @@ from src.improved_model_1.predict import load_model, predict
 
 MIN_WORDS = 5
 
-# How many candidates to show, by the top candidate's confidence:
-# above 80% -> 1, 50-80% -> top 2, below 50% -> top 3.
+# How many teams to show, by the top team's confidence:
+# above 80% -> 1, 50-80% -> top 2, below 50% -> top 3. Issues always show
+# the top ISSUES_SHOWN.
 SINGLE_ABOVE = 0.80
 PAIR_FROM = 0.50
+ISSUES_SHOWN = 3
+
+# Prediction takes well under a second once the model is loaded; each step
+# stays on screen this long so the progress is readable.
+STEP_PAUSE_SEC = 2
+# How long the fully ticked checklist stays before the result appears.
+DONE_PAUSE_SEC = 1
 
 st.set_page_config(page_title="ClariCase", page_icon=":material/forum:",
                    layout="centered")
@@ -25,18 +34,19 @@ st.markdown("""
 <style>
   .block-container { padding-top: 2.5rem; max-width: 760px; }
   .cc-brand { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em;
-              color: #0F766E; margin-bottom: 0.1rem; }
+              color: #4A4785; margin-bottom: 0.4rem; display: inline-block;
+              border-bottom: 3px solid #A9A4CF; padding-bottom: 0.1rem; }
   .cc-tagline { font-size: 1.05rem; color: #475569; margin-bottom: 1.4rem; }
   .cc-steps { display: flex; gap: 0.6rem; flex-wrap: wrap;
               margin-bottom: 1.6rem; }
   .cc-step { flex: 1 1 0; min-width: 150px; background: #FFFFFF;
-             border: 1px solid #E2E8F0; border-radius: 12px;
+             border: 1px solid #E5E5EC; border-radius: 12px;
              padding: 0.75rem 0.9rem; }
   .cc-step-num { display: inline-block; width: 1.5rem; height: 1.5rem;
-                 border-radius: 50%; background: #0F766E; color: #FFFFFF;
+                 border-radius: 50%; background: #E7E5F2; color: #4A4785;
                  font-size: 0.8rem; font-weight: 700; text-align: center;
                  line-height: 1.5rem; margin-right: 0.4rem; }
-  .cc-step-title { font-weight: 600; color: #1E293B; }
+  .cc-step-title { font-weight: 600; color: #26253D; }
   .cc-step-text { font-size: 0.85rem; color: #64748B; margin-top: 0.25rem; }
   .cc-badge { display: inline-block; padding: 0.2rem 0.7rem;
               border-radius: 999px; font-size: 0.8rem; font-weight: 700;
@@ -46,11 +56,13 @@ st.markdown("""
   .cc-received { background: #E2E8F0; color: #334155; }
   .cc-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
               letter-spacing: 0.06em; color: #64748B; margin: 0.9rem 0 0.2rem; }
-  .cc-team { font-size: 1.45rem; font-weight: 700; color: #1E293B; }
-  .cc-issue { font-size: 1.05rem; font-weight: 600; color: #1E293B; }
+  .cc-team { font-size: 1.45rem; font-weight: 700; color: #26253D; }
+  .cc-issue { font-size: 1.05rem; font-weight: 600; color: #26253D; }
   .cc-note { font-size: 0.95rem; color: #334155; margin-top: 0.6rem; }
   .cc-footer { text-align: center; font-size: 0.8rem; color: #94A3B8;
                margin-top: 2.5rem; }
+  /* Hide Streamlit's generic "Running..." indicator; submits show steps. */
+  [data-testid="stStatusWidget"] { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -107,20 +119,62 @@ def show_candidates(items: list[tuple[str, float]], css: str) -> None:
 # ---------------------------------------------------------------- callbacks
 # Both run before the rerun, so the input boxes can be cleared on every press.
 def handle_submit() -> None:
+    # Only captures the text; the work runs in process_complaint() so the
+    # page can show progress steps while it happens.
     text = st.session_state["complaint_text"].strip()
     st.session_state["complaint_text"] = ""
     if len(text.split()) < MIN_WORDS:
         st.session_state["submit_result"] = {"kind": "too_short"}
         return
+    st.session_state["submit_result"] = None
+    st.session_state["pending_text"] = text
+
+
+STEPS = ("Analyzing complaint", "Identifying issue", "Assigning team")
+
+
+def render_steps(placeholder, current: int) -> None:
+    # Steps before `current` are done, `current` is in progress, rest pending.
+    rows = []
+    for i, name in enumerate(STEPS):
+        if i < current:
+            rows.append(f":material/check_circle: {name}")
+        elif i == current:
+            rows.append(f":material/progress_activity: **{name}…**")
+        else:
+            rows.append(f":gray[:material/radio_button_unchecked: {name}]")
+    placeholder.container(border=True).markdown("  \n".join(rows))
+
+
+def process_complaint(text: str) -> dict:
+    placeholder = st.empty()
+    render_steps(placeholder, 0)
     prediction = predict(text, model=get_model())
+    time.sleep(STEP_PAUSE_SEC)
+
+    render_steps(placeholder, 1)
+    time.sleep(STEP_PAUSE_SEC)
+
+    render_steps(placeholder, 2)
     record = build_record(text, prediction)
     try:
         store.add(record)
     except Exception:
-        st.session_state["submit_result"] = {"kind": "error"}
-        return
-    st.session_state["submit_result"] = {"kind": "sent", "record": record,
-                                         "prediction": prediction}
+        placeholder.empty()
+        return {"kind": "error"}
+    time.sleep(STEP_PAUSE_SEC)
+
+    render_steps(placeholder, len(STEPS))
+    time.sleep(DONE_PAUSE_SEC)
+    placeholder.empty()
+    return {"kind": "sent", "record": record, "prediction": prediction}
+
+
+def reset_on_tab_change() -> None:
+    for key in ("submit_result", "track_result", "pending_text"):
+        st.session_state.pop(key, None)
+    st.session_state["complaint_text"] = ""
+    st.session_state["tracking_input"] = ""
 
 
 def handle_track() -> None:
@@ -161,7 +215,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 submit_tab, track_tab = st.tabs([":material/edit_note: Submit a complaint",
-                                 ":material/search: Track my complaint"])
+                                 ":material/search: Track my complaint"],
+                                key="active_tab",
+                                on_change=reset_on_tab_change)
 
 # ---------------------------------------------------------------- submit
 with submit_tab:
@@ -173,6 +229,10 @@ with submit_tab:
         st.form_submit_button("Submit complaint", type="primary",
                               icon=":material/send:", on_click=handle_submit,
                               width="stretch")
+
+    pending = st.session_state.pop("pending_text", None)
+    if pending:
+        st.session_state["submit_result"] = process_complaint(pending)
 
     result = st.session_state.get("submit_result")
     if result is None:
@@ -187,7 +247,7 @@ with submit_tab:
     else:
         record, prediction = result["record"], result["prediction"]
         teams = candidates_to_show(prediction["top_k"])
-        issues = candidates_to_show(prediction["issue_top_k"])
+        issues = prediction["issue_top_k"][:ISSUES_SHOWN]
         routed = prediction["route"] == "auto"
 
         with st.container(border=True):
@@ -247,7 +307,7 @@ with track_tab:
             st.markdown(f'<div class="cc-team">{found["team_name"]}</div>',
                         unsafe_allow_html=True)
             if found.get("issue_label"):
-                label("Issue")
+                label("Most likely issue")
                 st.markdown(f'<div class="cc-issue">'
                             f'{issue_name(found["issue_label"])}</div>',
                             unsafe_allow_html=True)

@@ -13,16 +13,12 @@ create table if not exists public.complaints (
   route          text                               -- auto / review
 );
 
--- Migration for a table created before issue_id, issue_label and route
--- existed. Safe to run more than once. Run it BEFORE deploying the app
--- version that writes these columns, or new submissions will fail to save.
+
 alter table public.complaints add column if not exists issue_id    text;
 alter table public.complaints add column if not exists issue_label text;
 alter table public.complaints add column if not exists route       text;
 
--- The app connects with the anon (publishable) key, which only ever lives in
--- Streamlit secrets on the server. These policies let it add and look up
--- complaints; it cannot update or delete them.
+
 alter table public.complaints enable row level security;
 
 create policy "app can insert complaints"
