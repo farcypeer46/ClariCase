@@ -8,6 +8,7 @@ from datetime import datetime
 
 import streamlit as st
 
+from src.app.pii import mask
 from src.app.storage import (LocalStore, SupabaseStore, build_record,
                              normalise_tracking_id)
 from src.improved_model_1.predict import load_model, predict
@@ -127,7 +128,10 @@ def handle_submit() -> None:
         st.session_state["submit_result"] = {"kind": "too_short"}
         return
     st.session_state["submit_result"] = None
-    st.session_state["pending_text"] = text
+    # Redact before anything downstream sees it: the raw text is never
+    # predicted on, stored or displayed. Length is checked first so a
+    # complaint is not rejected for the words masking removes.
+    st.session_state["pending_text"] = mask(text)
 
 
 STEPS = ("Analyzing complaint", "Identifying issue", "Assigning team")
@@ -226,6 +230,9 @@ with submit_tab:
                      placeholder="For example: I was charged an overdraft fee "
                                  "even though I had enough money in my "
                                  "account. I'd like the fee refunded.")
+        st.caption(":material/lock: For your privacy, details such as account, "
+                   "card and phone numbers are hidden automatically before "
+                   "your complaint is saved.")
         st.form_submit_button("Submit complaint", type="primary",
                               icon=":material/send:", on_click=handle_submit,
                               width="stretch")
@@ -315,6 +322,8 @@ with track_tab:
             st.write(f"{submitted_at:%B %d, %Y at %H:%M} UTC")
             with st.expander("Your complaint"):
                 st.write(found["complaint_text"])
+                st.caption("Personal details are shown as XXXX for your "
+                           "privacy.")
 
 # ---------------------------------------------------------------- footer
 footer = ("Clear-cut complaints are routed automatically; the rest are "
