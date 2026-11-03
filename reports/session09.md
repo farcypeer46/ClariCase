@@ -82,6 +82,25 @@ north_star:
 - Its main confusions are the project's familiar ones: Debt Collection sent to Credit Reporting (64 complaints) and Banking Accounts sent to Money Transfers (44).
 - **Second opinion.** The two models agree on 84.3% of complaints; Jev alone is right on 4.4% and Improved Model 1 alone on 8.9%. We searched for the best rule that lets Jev's agreement lower Improved Model 1's threshold, fitted on validation with the project's standard 0.002 threshold steps. The best rule ignores Jev entirely (0.782 whether or not Jev agrees), giving 65.9% at 95.7% on test, identical to Improved Model 1 alone. An earlier coarser search (0.01 steps) suggested a 0.9-point gain; it was an artefact of the coarse steps.
 
+### Issue-first fine-tuning — Sriramm
+
+The objective for these experiments is **complaint text → product-specific issue → team**. The original 73 issue labels are preserved, and each issue maps to one of the 11 product teams through a fixed lookup. Only the complaint narrative is supplied as input; the recorded product, issue and team are not input features. This is a separate experiment from the direct team classifiers above and from Improved Model 3 (FLAN-T5).
+
+**Earlier Llama pilot.** Fine-tuned Llama 3.2 3B Instruct in Colab using a 4-bit base model and LoRA adapters. Changed the generated target from an opaque issue ID to a descriptive `Product :: Issue` label, then mapped the generated label back to its issue and team. Training used answer-only loss, with checks that the prompt and padding tokens were masked. The completed one-epoch pilot used 7,300 training complaints. On a class-balanced validation diagnostic of 730 complaints, it achieved **40.68% issue accuracy, 0.3929 issue macro-F1 and 74.79% team accuracy**, with 100% valid labels. These are validation results, not final test results.
+
+**Completed Zaratan comparison.** Fine-tuned ModernBERT-base and DeBERTa-v3-base with a 73-class classification head, updating the encoder weights as well as the head. Both used the same 29,141 training complaints, capped at 400 per issue where available, for two epochs. Settings included a learning rate of 2e-5, effective batch size 32, seed 20261102 and a 512-token limit with beginning-and-end cropping. The training window was January 2024–June 2025; validation covered July–September 2025 (3,650 complaints, 50 per issue), and test covered October–December 2025 (2,190 complaints, 30 per issue). Known audit groups spanning time splits were excluded without changing the original labels.
+
+| Model | Validation issue macro-F1 | Test issue accuracy | Test issue macro-F1 | Test team accuracy | Test team macro-F1 |
+|---|---:|---:|---:|---:|---:|
+| ModernBERT-base | **0.3586** | **36.94%** | **0.3592** | 68.90% | 0.6835 |
+| DeBERTa-v3-base | 0.2556 | 29.27% | 0.2503 | **70.37%** | **0.6912** |
+
+Each model's checkpoint was selected by its lowest validation loss. ModernBERT was selected for the larger run because it had the higher **validation issue macro-F1**, which matches the issue-first objective. DeBERTa had better team accuracy but was less accurate at identifying the specific issue. Both produced valid labels for every evaluated complaint, and the metrics were recomputed from saved predictions. Each pilot took about six minutes of training on the cluster's H100 GPU, excluding setup and queue time.
+
+**Full training status, November 2:** prepared all **720,088 eligible training complaints**, with no per-class cap. This is the original 725,654-row training partition minus 5,566 rows belonging to known cross-period audit groups; validation and test remain separate. Submitted a fresh ModernBERT run for two epochs, retaining the same validation/test diagnostics and saving resumable checkpoints. Job **23738671 is pending GPU allocation** on the A100 partition; no full-data results are available yet. The queued Qwen pilot was cancelled to focus on this run.
+
+**Interpretation:** the remaining challenge is distinguishing issues within and across products, rather than merely producing a valid label. These scores measure agreement with the existing dataset labels. The evaluation samples are balanced by issue, the historical partitions have been examined previously, and the earlier Llama pilot used different samples and settings. Consequently, these figures do not establish that one model beats Llama, Jev or the served classifier. No confidence threshold or autonomous routing rate at 95% precision has been established for these issue-first models, and none has replaced the deployed model.
+
 ## What did not work
 - **Jev's north star (50.1%) is well below Improved Model 1's (65.9% on the same sample)**, and at 94.4% precision it also falls just short of the 95% definition. Its most confident answers cannot be split further, so Jev cannot route more complaints at higher precision on its own.
 - **Jev's confidence is overconfident.** Its raw calibration error (0.112) is three times Improved Model 1's, contrary to TypeSafe's calibration claims. It can be corrected after the fact, but that does not help routing at the 95% target.
@@ -97,6 +116,7 @@ north_star:
 - The forward-drift cohort is no longer fresh. A new untouched evaluation window will be needed to report future gains credibly.
 
 ## Next week's goal
+  - **Issue-first fine-tuning (Sriramm):** complete the queued full-data ModernBERT run, evaluate it on the fixed diagnostics, and inspect per-issue errors before considering confidence calibration or deployment.
   - Train Improved Model 3 on the full training set with class balancing, and score it on the test set with calibration (carried over).
   - Try Jev with a few training examples per team (about $0.90 on the same sample) and on a larger test sample (about $0.50), if the team approves the spend.
   
@@ -105,7 +125,7 @@ north_star:
 - **Sukriti Srivastava (Product)** — Built the Jev evaluation pipeline: API client following TypeSafe's reference, PII-masked inputs, per-complaint answer cache, cost estimate with explicit confirmation, offline mock mode and 15 tests. Ran the zero-shot evaluation against Improved Model 1 on the same samples, plus the second-opinion and calibration analyses. (branch `jev_ai`)
 - **Chaitanya Bagul (Engineering)** — **TODO (Chaitanya): add this session's work.**
 - **Salman Farcy (Data and Evaluation)** — **TODO (Salman): add this session's work.**
-- **Sriramm S S (Users and Research)** — **TODO (Sriramm): add this session's work.**
+- **Sriramm S S (Users and Research)** — Extended the Llama fine-tuning work with a matched ModernBERT/DeBERTa comparison on Zaratan for 73-issue prediction followed by routing to 11 teams. Preserved the original labels, checked temporal split separation and issue-to-team mapping, evaluated saved predictions, and selected ModernBERT using validation issue macro-F1. Prepared the full 720,088-row training split and submitted the full ModernBERT run, which is awaiting GPU allocation. Recorded the earlier descriptive-label Llama pilot and the new encoder results above. Tracked in [#26](https://github.com/farcypeer46/ClariCase/issues/26).
 
 ## Lean canvas changes (if any)
 
