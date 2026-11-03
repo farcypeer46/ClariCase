@@ -1,0 +1,27 @@
+{
+  "target_precision": 0.95,
+  "n_val": 2000,
+  "n_test": 2000,
+  "improved_model_1_alone": {
+    "threshold_when_jev_agrees": 0.782,
+    "threshold_otherwise": 0.782,
+    "test": {
+      "coverage": 0.6585,
+      "precision": 0.9567,
+      "n_routed": 1317
+    }
+  },
+  "second_opinion": {
+    "threshold_when_jev_agrees": 0.782,
+    "threshold_otherwise": 0.782,
+    "test": {
+      "coverage": 0.6585,
+      "precision": 0.9567,
+      "n_routed": 1317
+    }
+  },
+  "jev_calibration": {
+    "ece_test_raw": 0.1118,
+    "ece_test_isotonic": 0.0187
+  }
+}
