@@ -21,9 +21,19 @@ def _format_prompt(text: str) -> str:
     return TEAM_PROMPT_TEMPLATE.format(text=preprocess(text))
 
 
-def build_team_dataset(split: str, tok, rows: int | None = None) -> Dataset:
+def build_team_dataset(
+    split: str,
+    tok,
+    rows: int | None = None,
+    per_team_cap: int | None = None,
+) -> Dataset:
     df = load_split(split)
-    if rows is not None and len(df) > rows:
+    if per_team_cap is not None:
+        df = (df.groupby("team_id", group_keys=False)
+                .apply(lambda g: g.sample(n=min(len(g), per_team_cap),
+                                          random_state=SEED))
+                .reset_index(drop=True))
+    elif rows is not None and len(df) > rows:
         df = df.sample(n=rows, random_state=SEED).reset_index(drop=True)
 
     texts = df["complaint_text"].tolist()

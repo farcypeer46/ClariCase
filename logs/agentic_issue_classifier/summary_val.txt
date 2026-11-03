@@ -1,0 +1,18 @@
+Agentic Issue Classifier — val split
+backend=groq  k_shots=8  verify=True (thr=0.6)
+team_source=oracle
+rows=20  wall=178.8s  throughput=0.11 rows/s
+
+accuracy        0.5000
+macro_f1        0.2985
+weighted_f1     0.4833
+unk_rate        0.0000
+verified_rate   0.00%
+team_match_rate 1.0000
+
+Per-team accuracy (by predicted team):
+pred_team_id  n  accuracy
+         T01 11    0.6364
+         T02  7    0.4286
+         T03  1    0.0000
+         T08  1    0.0000

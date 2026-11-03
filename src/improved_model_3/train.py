@@ -63,6 +63,8 @@ def parse_args() -> argparse.Namespace:
                    help="50k rows, 1 epoch, no early stop")
     p.add_argument("--rows", type=int, default=None,
                    help="Override train row count")
+    p.add_argument("--per-team-cap", dest="per_team_cap", type=int, default=None,
+                   help="If set, sample up to N rows per team (overrides --rows)")
     p.add_argument("--epochs", type=int, default=None,
                    help="Override num epochs")
     p.add_argument("--split", type=str, default="train_cap_issue",
@@ -75,15 +77,21 @@ def main() -> None:
     set_seed(SEED)
 
     rows = 50_000 if args.smoke else args.rows
+    per_team_cap = args.per_team_cap
+    if per_team_cap is not None and rows is not None:
+        print(f"[train] WARN: --rows={rows} ignored because "
+              f"--per-team-cap={per_team_cap} is set", flush=True)
+        rows = None
     epochs = (1 if args.smoke else NUM_EPOCHS_TEAM) \
         if args.epochs is None else args.epochs
 
     tok = load_tokenizer()
 
     print(f"[train] device info: {gpu_info()}", flush=True)
-    print(f"[train] building datasets: split={args.split} rows={rows}",
-          flush=True)
-    train_ds = build_team_dataset(args.split, tok, rows=rows)
+    print(f"[train] building datasets: split={args.split} rows={rows} "
+          f"per_team_cap={per_team_cap}", flush=True)
+    train_ds = build_team_dataset(args.split, tok, rows=rows,
+                                  per_team_cap=per_team_cap)
     val_ds = build_team_dataset("val", tok, rows=VAL_SUBSET_SIZE)
     print(f"[train] train={len(train_ds)} val_eval_subset={len(val_ds)}",
           flush=True)
@@ -155,6 +163,7 @@ def main() -> None:
         "val_eval_subset": len(val_ds),
         "epochs": epochs,
         "split": args.split,
+        "per_team_cap": per_team_cap,
         "smoke": args.smoke,
         "model_name": "google/flan-t5-base",
         "lora_r": 16,
