@@ -119,11 +119,12 @@ Each model's checkpoint was selected by its lowest validation loss. ModernBERT w
   - **Issue-first fine-tuning (Sriramm):** complete the queued full-data ModernBERT run, evaluate it on the fixed diagnostics, and inspect per-issue errors before considering confidence calibration or deployment.
   - Train Improved Model 3 on the full training set with class balancing, and score it on the test set with calibration (carried over).
   - Try Jev with a few training examples per team (about $0.90 on the same sample) and on a larger test sample (about $0.50), if the team approves the spend.
+  - **Fully trained Seq-2-seq model (Chaitanya)** Fully finetune the Seq-2-seq model for classsification and integrate it in the agentic pipeline for Issue clasification. Along with it , add better prompt for issue clasification so that it is able to classify issue correctly without getting confused.
   
 
 ## Individual contributions
 - **Sukriti Srivastava (Product)** — Built the Jev evaluation pipeline: API client following TypeSafe's reference, PII-masked inputs, per-complaint answer cache, cost estimate with explicit confirmation, offline mock mode and 15 tests. Ran the zero-shot evaluation against Improved Model 1 on the same samples, plus the second-opinion and calibration analyses. (branch `jev_ai`)
-- **Chaitanya Bagul (Engineering)** — **TODO (Chaitanya): add this session's work.**
+- **Chaitanya Bagul (Engineering)** — Build an agentic ai based pipeline by leveraing the capabilities og GPT-OSS 120B model from OpenAI on Groq Cloud platform to classify issues correctly. Parallely finetuning seq-2-seq model for team classification and it is taking lot of time in traininig on local GPUs, so traininchunks and saving intermediate checkpoints to resume traing later on. (branch `improved_model_3`) 
 - **Salman Farcy (Data and Evaluation)** — **TODO (Salman): add this session's work.**
 - **Sriramm S S (Users and Research)** — Extended the Llama fine-tuning work with a matched ModernBERT/DeBERTa comparison on Zaratan for 73-issue prediction followed by routing to 11 teams. Preserved the original labels, checked temporal split separation and issue-to-team mapping, evaluated saved predictions, and selected ModernBERT using validation issue macro-F1. Prepared the full 720,088-row training split and submitted the full ModernBERT run, which is awaiting GPU allocation. Recorded the earlier descriptive-label Llama pilot and the new encoder results above. Tracked in [#26](https://github.com/farcypeer46/ClariCase/issues/26).
 
