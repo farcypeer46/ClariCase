@@ -1,0 +1,17 @@
+{
+  "split": "val",
+  "backend": "groq",
+  "rows": 20,
+  "team_source": "oracle",
+  "k_shots": 8,
+  "verify": true,
+  "verify_threshold": 0.6,
+  "team_match_rate": 1.0,
+  "accuracy": 0.5,
+  "macro_f1": 0.2985,
+  "weighted_f1": 0.4833,
+  "unk_rate": 0.0,
+  "verified_rate": 0.0,
+  "wall_clock_sec": 178.8,
+  "throughput_rows_per_sec": 0.11
+}
