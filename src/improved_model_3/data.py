@@ -7,6 +7,7 @@ Seq2SeqTrainer with a DataCollatorForSeq2Seq collator.
 from __future__ import annotations
 
 import numpy as np
+import pandas as pd
 import torch
 from datasets import Dataset
 
@@ -29,10 +30,11 @@ def build_team_dataset(
 ) -> Dataset:
     df = load_split(split)
     if per_team_cap is not None:
-        df = (df.groupby("team_id", group_keys=False)
-                .apply(lambda g: g.sample(n=min(len(g), per_team_cap),
-                                          random_state=SEED))
-                .reset_index(drop=True))
+        parts = [
+            g.sample(n=min(len(g), per_team_cap), random_state=SEED)
+            for _, g in df.groupby("team_id", sort=False)
+        ]
+        df = pd.concat(parts, ignore_index=True)
     elif rows is not None and len(df) > rows:
         df = df.sample(n=rows, random_state=SEED).reset_index(drop=True)
 

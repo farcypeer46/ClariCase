@@ -9,10 +9,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import time
+from pathlib import Path
 
 import numpy as np
 import torch
+import transformers
 from sklearn.metrics import f1_score
 from transformers import (
     DataCollatorForSeq2Seq,
@@ -21,6 +24,7 @@ from transformers import (
     set_seed,
 )
 from transformers.trainer_callback import EarlyStoppingCallback
+from transformers.trainer_utils import get_last_checkpoint
 
 from src.improved_model_3.config import (
     ARTIFACT_DIR, CHECKPOINT_DIR, EARLY_STOP_PATIENCE, EVAL_STEPS,
@@ -69,12 +73,35 @@ def parse_args() -> argparse.Namespace:
                    help="Override num epochs")
     p.add_argument("--split", type=str, default="train_cap_issue",
                    choices=["train_cap_issue", "train_full", "train_3k_team"])
+    p.add_argument("--resume", action="store_true",
+                   help="Resume from the latest checkpoint in CHECKPOINT_DIR")
     return p.parse_args()
+
+
+def _setup_file_logging() -> Path:
+    log_dir = Path("logs/improved_model_3")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / "train_5k_per_team.trainer.log"
+    root = logging.getLogger()
+    root.setLevel(logging.INFO)
+    if not any(isinstance(h, logging.FileHandler)
+               and getattr(h, "baseFilename", "") == str(log_path.resolve())
+               for h in root.handlers):
+        fh = logging.FileHandler(log_path, mode="a", encoding="utf-8")
+        fh.setFormatter(logging.Formatter(
+            "%(asctime)s %(levelname)s %(name)s: %(message)s"))
+        root.addHandler(fh)
+    transformers.logging.set_verbosity_info()
+    transformers.logging.enable_default_handler()
+    transformers.logging.enable_propagation()
+    return log_path
 
 
 def main() -> None:
     args = parse_args()
     set_seed(SEED)
+    log_path = _setup_file_logging()
+    print(f"[train] file log -> {log_path}", flush=True)
 
     rows = 50_000 if args.smoke else args.rows
     per_team_cap = args.per_team_cap
@@ -122,7 +149,7 @@ def main() -> None:
         save_strategy="steps",
         save_steps=SAVE_STEPS,
         save_total_limit=SAVE_TOTAL_LIMIT,
-        load_best_model_at_end=not args.smoke,
+        load_best_model_at_end=False,
         metric_for_best_model="team_macro_f1",
         greater_is_better=True,
         report_to="none",
@@ -135,8 +162,7 @@ def main() -> None:
                                       return_tensors="pt",
                                       pad_to_multiple_of=8)
 
-    callbacks = [] if args.smoke else [
-        EarlyStoppingCallback(early_stopping_patience=EARLY_STOP_PATIENCE)]
+    callbacks = []
 
     trainer = Seq2SeqTrainer(
         model=model,
@@ -149,8 +175,13 @@ def main() -> None:
         callbacks=callbacks,
     )
 
+    resume_path = None
+    if args.resume:
+        resume_path = get_last_checkpoint(str(CHECKPOINT_DIR))
+        print(f"[train] resume_from_checkpoint={resume_path}", flush=True)
+
     t0 = time.time()
-    trainer.train()
+    trainer.train(resume_from_checkpoint=resume_path)
     wall = time.time() - t0
 
     peak_vram = (torch.cuda.max_memory_allocated() / 1024 ** 3
