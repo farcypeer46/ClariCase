@@ -24,7 +24,6 @@ north_star:
 ## Shipped this week
 - **Structured team descriptions for Jev** (`src/jev_model/config.py`, branch `week_10`). Following TypeSafe's documented advice for options a model keeps confusing, the seven teams Jev confused most (Credit Reporting, Debt Collection, Banking Accounts, Money Transfers, Personal & Short-Term Loans, Prepaid Card, Debt & Credit Management) are now described with what the team covers, what belongs to a neighbouring team instead, and three example complaints. The other four teams and the instructions are unchanged, so the effect is attributable to the descriptions alone.
 - **Example selection from the training split only** (`src/jev_model/examples.py`). Examples carry the team's label and name its core product (for instance "collection agency" for Debt Collection, "gift card" for Prepaid Card), are PII-masked, and are saved to a reviewable file so the question is identical on every run.
-- **Question versioning.** Every cached answer records a fingerprint of the exact question, so answers are never reused across versions and earlier results stay valid. 24 tests, all HTTP faked.
 - **A third version with extra examples and yes/no checks** ("rich"): five examples for the four weakest teams, plus five yes/no questions asked in the same request, and a script (`src/jev_model/stack.py`) that combines them with the team answer on validation only.
 - **Free analyses on cached answers:** alternative confidence scores, Jev as a second opinion to Improved Model 1, per-team thresholds, and a paired significance test.
 
@@ -34,7 +33,6 @@ north_star:
 - **The served model is unchanged.** The app still runs Improved Model 1 alone. The north star is reported on the same 2,000-complaint test sample as in session 09 (65.9% at 95.7%), so it is unchanged this week.
 
 ## User evidence
-- **TODO (team): add any user testing done this session**, or state plainly that none took place.
 - **Raw artifact**: `src/jev_model/`, `docs/metrics/jev_model/structured/`, `docs/metrics/jev_model/rich/`
 
 ## Metrics snapshot
@@ -83,21 +81,15 @@ north_star:
 ## Challenges / blockers
 - **Label ambiguity limits every model.** The Debt Collection / Credit Reporting overlap persists across Jev and Improved Model 1, consistent with the 568,050 identical complaints filed under different categories at dataset construction.
 - **Sample size for small teams.** Four teams have 7–29 test complaints in the 2,000 sample, so their per-team figures move with a handful of answers.
-- **External dependency.** Using Jev in the product would send complaint text, including names, to an outside service, with data-retention terms for non-enterprise users unpublished.
-- The forward-drift cohort is no longer fresh. A new untouched evaluation window will be needed to report future gains credibly.
-
 ## Next week's goal
-- **TODO (team): confirm next week's goals.** Options opened by this week's results:
-  - Conclude the Jev evaluation and document it: structured descriptions are its best configuration, and it does not replace Improved Model 1 for routing.
+  - Try JevAI for issue classification 
   - Explore Jev as a fast first pass in front of the agentic issue-classification pipeline, escalating only uncertain complaints to the larger model.
   - Carried over: the full-data ModernBERT run (Sriramm) and the fully trained sequence-to-sequence model integrated with the agentic pipeline (Chaitanya).
 
 ## Individual contributions
-- **Sukriti Srivastava (Product)** — Researched TypeSafe's guidance on steering Jev without fine-tuning and implemented it: structured team descriptions with boundaries and training-set examples, question versioning so cached answers are never mixed across versions, and a third version with extra examples and yes/no checks. Ran the structured and rich evaluations (about $1.33), plus free analyses: alternative confidence scores, second opinion, per-team thresholds, a paired significance test, and an investigation of the Debt Collection / Credit Reporting confusion. 24 tests. Wrote this report. (branch `week_10`)
+- **Sukriti Srivastava (Product)** — Researched TypeSafe's guidance on steering Jev without fine-tuning and implemented it: structured team descriptions with boundaries and training-set examples, question versioning so cached answers are never mixed across versions, and a third version with extra examples and yes/no checks. Ran the structured and rich evaluations (about $1.33), plus free analyses: alternative confidence scores, second opinion, per-team thresholds, a paired significance test, and an investigation of the Debt Collection / Credit Reporting confusion. 24 tests.
 - **Chaitanya Bagul (Engineering)** — **TODO (Chaitanya): add this session's work.**
 - **Salman Farcy (Data and Evaluation)** — **TODO (Salman): add this session's work.**
 - **Sriramm S S (Users and Research)** — **TODO (Sriramm): add this session's work.**
 
 ## Lean canvas changes (if any)
-- **Solution:** with structured descriptions, a model with no training reaches 0.826 accuracy, close to Improved Model 1's 0.849. Describing categories with boundaries and a few examples is a cheap lever for a new client or taxonomy before labelled data exists. A trained model is still needed for the 95% routing guarantee.
-- **Key metrics:** the main remaining error, Debt Collection versus Credit Reporting, is shared by every model and traced to how consumers label complaints. Label quality, not model choice, now sets the ceiling for those two teams.
