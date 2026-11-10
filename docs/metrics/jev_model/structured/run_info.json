@@ -1,0 +1,16 @@
+{
+  "mock": false,
+  "variant": "structured",
+  "question_sha": "33b8258ba567",
+  "requested_model": "jev-1.14.0",
+  "answering_models": [
+    "jev-1.14.0"
+  ],
+  "n_val": 2000,
+  "n_test": 2000,
+  "seed": 42,
+  "input_tokens": 13830204,
+  "est_cost_usd_at_published_price": 0.5809,
+  "pii_masked": true,
+  "run_utc": "2026-11-10T19:43:03+00:00"
+}

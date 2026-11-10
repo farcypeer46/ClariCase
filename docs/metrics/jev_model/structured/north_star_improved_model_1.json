@@ -1,0 +1,46 @@
+{
+  "metric": "autonomous routing rate at >=95% precision",
+  "protocol": "same random samples for every model, PII-masked; threshold fit on the validation sample, frozen for test; Jev probabilities used as returned",
+  "value": 0.6585,
+  "operating_points": {
+    "at_95p": {
+      "threshold": 0.782,
+      "coverage": 0.6585,
+      "precision": 0.9567,
+      "n_routed": 1317,
+      "validation_coverage": 0.6855,
+      "target_met_on_test": true,
+      "coverage_95ci": [
+        0.637,
+        0.6795
+      ],
+      "precision_95ci": [
+        0.9461,
+        0.9672
+      ]
+    },
+    "at_90p": {
+      "threshold": 0.594,
+      "coverage": 0.8525,
+      "precision": 0.9009,
+      "n_routed": 1705,
+      "validation_coverage": 0.8725,
+      "target_met_on_test": true
+    },
+    "at_85p": {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "precision": 0.8485,
+      "n_routed": 2000,
+      "validation_coverage": 1.0,
+      "target_met_on_test": false
+    }
+  },
+  "ece_test": 0.0357,
+  "guardrail": {
+    "team_precision_floor": 0.85,
+    "teams_below_floor": []
+  },
+  "n_validation": 2000,
+  "n_test": 2000
+}

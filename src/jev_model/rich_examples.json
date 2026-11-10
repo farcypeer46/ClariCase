@@ -1,0 +1,95 @@
+{
+  "source_split": "train_cap_issue",
+  "seed": 42,
+  "per_team": 5,
+  "examples": {
+    "T07": [
+      {
+        "complaint_id": "13547969",
+        "text": "XX/XX/scrub>XXXX XXXX, 2025 Im having a difficult time trying to pay off student loans not making enough money to live to afford to pay for student loan payments I would like to have the loan forgiven or removed from my credit report"
+      },
+      {
+        "complaint_id": "12034873",
+        "text": "I am looking through my XXXX account and Mohela account and the amount of student loans I took out do not match. Mohela has a higher amount than what I actually owe in student loans on XXXX ( this includes interest accrued )."
+      },
+      {
+        "complaint_id": "12481916",
+        "text": "XXXX XXXX XXXX XXXX do not have clearance to view my personal data, and has viewed my student loan data and has broken the contract that is to have my student federal loans and to get them forgiven."
+      },
+      {
+        "complaint_id": "13427560",
+        "text": "MY COMPLAINT IS WITH THE GOVERNMENT. \nXXXX XXXX HAD NO RIGHT TO ACCESS ANY OF MY FINANCIAL INFORMATION PERIOD WHAT HE DID IS UNLAWFUL AND A BREACH OF ETHICS.. \nFOR THESE REASONS I WOULD LIKE THE STUDENT LOAN DEBT REMOVED FROM MY CREDIT REPORT AND MY LOAN DEBT FORGIVEN. \nWE CAN NOT HAVE OUR PRIVACY AND DEMOCRACY RIPPED AWAY FROM US JUST BECAUSE HE THINKS HE CAN"
+      },
+      {
+        "complaint_id": "9150451",
+        "text": "I requested a School Misconduct Discharge Application and was denied as Navient stated that I am not eligible due to the loan type being a refinance. My private student loan is a consolidation and has never been refinanced."
+      }
+    ],
+    "T09": [
+      {
+        "complaint_id": "12420785",
+        "text": "I received a letter from SecureOne Financial offering a personal loan. The letter looks just like the government sent it. When you open it, a check is included that looks just like an IRS check. I did not request the personal loan. Therefore, they are phishing."
+      },
+      {
+        "complaint_id": "10184051",
+        "text": "I received a live check for an installment loan but its required to call them first to get an approval code. The check expired XX/XX/year>. XXXX made 7 calls XXXX trying to get this code and all I ever get is to leave a message and I never receive a call back. I feel like this is a scam and at best false advertising"
+      },
+      {
+        "complaint_id": "11996117",
+        "text": "Payday loans targeted me with exorbitant interest rates of 566 %, trapping me in a cycle of debt. As a veteran, I was misled by deceptive practices and hidden fees, making it impossible to repay the loan without facing severe financial hardship."
+      },
+      {
+        "complaint_id": "10467930",
+        "text": "Owed part of the {$10.00} XXXX penalty the CFPB ordered from TitleMax. This is for unlawful title loans and overcharging ridiculous interest & fees. They was supposed to communicate with me clearly & conspicuosly at the time of sending their contract. I am a victim of this useless product. Also it said on the contract I have a finance charge of {$840.00}, than why would I pay {$6800.00}."
+      },
+      {
+        "complaint_id": "9607447",
+        "text": "Hello, i am writing as i have a payday loan and have been making monthly payments and my balance has not change. The payment have gone over 6months and the balance stays the same to which i had to refinance to lower my payments and still no change in balance"
+      }
+    ],
+    "T10": [
+      {
+        "complaint_id": "8667306",
+        "text": "on XX/XX/24 i went to target to buy an Amex prepaid giftcard since then i have been trying to use the card but each time it is declined and a XXXX cent fee is taken out"
+      },
+      {
+        "complaint_id": "10000583",
+        "text": "I bought my prepaid visa card on XXXX, And I tried buying stuff on XXXX and XXXX and It wouldnt accept, I put XXXX on the XXXX XXXX I need help, It wont even let me see my card info in XXXX"
+      },
+      {
+        "complaint_id": "8169222",
+        "text": "I purchased {$150.00} gift card from XXXX and soon after it was lost/stolen. I reached out to the company and they put a hold on the card but didnt send me another card or try to help me at all to get my funds back."
+      },
+      {
+        "complaint_id": "8103406",
+        "text": "I have an American Express gift card, and I have a balance of {$48.00} and everywhere I use the card I keep getting a decline transaction or invalid card when I obviously have a balance"
+      },
+      {
+        "complaint_id": "10756632",
+        "text": "On XX/XX/year> I purchased a XXXX gift card with {$500.00} loaded onto it. I have tried to make multiple purchases with the card, but they are all declined. This card has never worked, even though I activated as the company instructed. When I check the card status online, it states the card is active with {$500.00}."
+      }
+    ],
+    "T11": [
+      {
+        "complaint_id": "14288490",
+        "text": "I terminated my contract with Freedom debt relief on XX/XX/XXXX. There customer service rep XXXX, told me specifically since I terminated my contract with them before they tried to collect there service fees of XXXX dollars and plus the settlement amount of XXXX towards the debt collects. That I would receive my full funds of my escrow savings account since being with them from XX/XX/XXXX to now XXXX, XXXX, XXXX."
+      },
+      {
+        "complaint_id": "9085378",
+        "text": "XX/XX/XXXXXX/XX/XXXXXXXX keeps sending me emails and that was over XXXX XXXX XXXX. XX/XX/XXXXXXXX keeps sending me mail and it was over XXXX XXXX XXXX. Affirm keeps sending me emails and that was over XXXX XXXX XXXX ; XXXXXX/XX/XXXX was a credit repair card and it still charging me {$70.00} I sent them a dispute XXXX times they never reported to my credit bureau that I sent them a dispute."
+      },
+      {
+        "complaint_id": "11263117",
+        "text": "I signed up for Lexington law credit repair paid a monthly fee for XXXX years and my credit score did not change items returned changes"
+      },
+      {
+        "complaint_id": "11253780",
+        "text": "I hired Lexington Law on two separate occasions over the past 10 years to provide credit repair and counseling. I paid a monthly fee for the services, but my credit report did not change. The company Lexington Law received monies for services not renderedfalse advertisement."
+      },
+      {
+        "complaint_id": "11306415",
+        "text": "Lexington Law Firm XX/XX/XXXX - XX/XX/XXXX : {$75.00} = {$900.00} XX/XX/XXXX - XX/XX/XXXX : {$50.00} = {$650.00} I was promised a credit repair and monitor. All they were doing was automatically withdrawing from my acct. no credit were being fixed"
+      }
+    ]
+  }
+}

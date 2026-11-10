@@ -10,7 +10,7 @@ import os
 import random
 import time
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import requests
@@ -31,6 +31,7 @@ class TeamAnswer:
     probabilities: dict[str, float]   # team ID -> probability
     model: str                        # version that actually answered
     input_tokens: int
+    nouls: dict[str, float] = field(default_factory=dict)  # yes/no checks
 
 
 def load_api_key() -> str | None:
@@ -54,16 +55,21 @@ def parse_team_answer(body: dict) -> TeamAnswer:
     unknown = set(probs) - set(TEAM_IDS)
     if unknown:
         raise JevError(f"Response has labels outside the team set: {unknown}")
+    nouls = {name: float(a["noul"]) for name, a in body["answers"].items()
+             if name != QUESTION_NAME and isinstance(a, dict)
+             and a.get("type") == "noul" and "noul" in a}
     return TeamAnswer(
         probabilities={t: float(probs.get(t, 0.0)) for t in TEAM_IDS},
         model=str(body.get("model", "")),
         input_tokens=int(body.get("usage", {}).get("input_tokens", 0)),
+        nouls=nouls,
     )
 
 
 class JevClient:
     def __init__(self, api_key: str, model: str = MODEL,
-                 endpoint: str = ENDPOINT, session: requests.Session | None = None):
+                 endpoint: str = ENDPOINT, session: requests.Session | None = None,
+                 variant: str = "zeroshot"):
         if not api_key:
             raise JevError("No API key: set TYPESAFE_API_KEY or add "
                            "[typesafe] key to .streamlit/secrets.toml.")
@@ -72,7 +78,7 @@ class JevClient:
         self.session = session or requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {api_key}",
                                      "Content-Type": "application/json"})
-        self._question = team_question()
+        self._question = team_question(variant)
 
     def raw(self, state: str) -> dict:
         """One request; returns the parsed JSON body. Retries 429/529/5xx."""
@@ -107,9 +113,13 @@ class MockJevClient:
     """
     model = "mock"
 
+    def __init__(self, noul_names: tuple[str, ...] = ()):
+        self.noul_names = noul_names
+
     def classify_team(self, state: str) -> TeamAnswer:
         seed = int.from_bytes(hashlib.sha256(state.encode()).digest()[:4], "big")
         rng = np.random.default_rng(seed)
         p = rng.dirichlet(np.full(len(TEAM_IDS), 0.3))
+        nouls = {n: float(rng.random()) for n in self.noul_names}
         return TeamAnswer(dict(zip(TEAM_IDS, p.tolist())), self.model,
-                          len(state) // 4)
+                          len(state) // 4, nouls)
