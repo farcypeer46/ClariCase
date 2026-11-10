@@ -1,0 +1,11 @@
+{
+  "checkpoint": "/content/drive/MyDrive/ClariCase/improved_model_3/checkpoints/checkpoint-4000",
+  "split": "val",
+  "rows": 2000,
+  "accuracy": 0.72,
+  "macro_f1": 0.5471290471823645,
+  "weighted_f1": 0.7343451888569552,
+  "unk_rate": 0.0,
+  "wall_clock_sec": 72.8,
+  "throughput_rows_per_sec": 27.5
+}
