@@ -8,6 +8,7 @@ fit on the validation sample and frozen for the test sample.
     python -m src.jev_model.evaluate --probe         # one real request, raw reply
     python -m src.jev_model.evaluate                 # prints cost estimate, stops
     python -m src.jev_model.evaluate --yes           # real run (2,000 + 2,000)
+    python -m src.jev_model.evaluate --variant structured   # structured descriptions
 
 Answers are cached per complaint in data/cache/jev_model/, so an interrupted
 run resumes without paying for completed requests.
@@ -32,6 +33,7 @@ from src.jev_model.client import (JevClient, JevError, MockJevClient,
 from src.jev_model.config import (ARTIFACT_DIR, CACHE_DIR, CONCURRENCY, MODEL,
                                   N_TEST_DEFAULT, N_VAL_DEFAULT,
                                   PRICE_PER_M_INPUT_TOKENS, SEED, TEAM_IDS,
+                                  VARIANTS, cache_path, question_sha,
                                   team_question)
 from src.utils.labels import team_names
 from src.utils.metrics import evaluate
@@ -52,12 +54,13 @@ def sample_split(df: pd.DataFrame, n: int, seed: int = SEED) -> pd.DataFrame:
     return out
 
 
-def _question_tokens() -> int:
-    return len(json.dumps(team_question())) // 4
+def _question_tokens(variant: str = "zeroshot") -> int:
+    return len(json.dumps(team_question(variant))) // 4
 
 
-def estimate_cost(texts: list[str]) -> tuple[int, float]:
-    tokens = sum(len(t) // 4 + _question_tokens() for t in texts)
+def estimate_cost(texts: list[str], variant: str = "zeroshot") -> tuple[int, float]:
+    per_question = _question_tokens(variant)
+    tokens = sum(len(t) // 4 + per_question for t in texts)
     return tokens, tokens / 1e6 * PRICE_PER_M_INPUT_TOKENS
 
 
@@ -69,19 +72,34 @@ def load_cache(path: Path) -> dict[str, dict]:
     return {r["complaint_id"]: r for r in rows}
 
 
-def _pending(df: pd.DataFrame, cache: dict[str, dict]) -> pd.DataFrame:
-    hit = df.apply(lambda r: (str(r["complaint_id"]) in cache and
-                              cache[str(r["complaint_id"])]["text_sha256"]
-                              == r["text_sha256"]), axis=1)
+def _cached(row: dict | None, text_sha: str, qsha: str | None,
+            legacy_ok: bool) -> bool:
+    # An answer is reusable only for the same text and the same question.
+    # Rows written before question fingerprints existed are zero-shot answers.
+    if row is None or row["text_sha256"] != text_sha:
+        return False
+    if qsha is None:
+        return True
+    stored = row.get("question_sha")
+    if stored is None:
+        return legacy_ok
+    return stored == qsha
+
+
+def _pending(df: pd.DataFrame, cache: dict[str, dict], qsha: str | None = None,
+             legacy_ok: bool = True) -> pd.DataFrame:
+    hit = df.apply(lambda r: _cached(cache.get(str(r["complaint_id"])),
+                                     r["text_sha256"], qsha, legacy_ok), axis=1)
     return df[~hit]
 
 
 # ---------------------------------------------------------------- classify
 def classify_frame(client, df: pd.DataFrame, cache_path: Path,
-                   label: str = "") -> np.ndarray:
+                   label: str = "", qsha: str | None = None,
+                   legacy_ok: bool = True) -> np.ndarray:
     """Probability matrix (rows x TEAM_IDS) for df, reusing cached answers."""
     cache = load_cache(cache_path)
-    todo = _pending(df, cache)
+    todo = _pending(df, cache, qsha, legacy_ok)
     if len(todo):
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         lock = threading.Lock()
@@ -95,7 +113,8 @@ def classify_frame(client, df: pd.DataFrame, cache_path: Path,
                 row = {"complaint_id": str(r.complaint_id),
                        "text_sha256": r.text_sha256,
                        "probabilities": ans.probabilities, "model": ans.model,
-                       "input_tokens": ans.input_tokens}
+                       "input_tokens": ans.input_tokens, "question_sha": qsha,
+                       "nouls": ans.nouls}
                 with lock:
                     f.write(json.dumps(row) + "\n")
                     f.flush()
@@ -177,15 +196,19 @@ def parse_args(argv=None) -> argparse.Namespace:
                    help="send one request and print the raw response, then exit")
     p.add_argument("--no-baseline", action="store_true",
                    help="skip the Improved Model 1 comparison")
+    p.add_argument("--variant", choices=VARIANTS, default="zeroshot",
+                   help="question version: one-line team descriptions, or "
+                        "structured descriptions for confusable teams")
     return p.parse_args(argv)
 
 
 def main(argv=None) -> int:
     args = parse_args(argv)
-    client = MockJevClient() if args.mock else None
+    noul_names = tuple(n for n in team_question(args.variant) if n != "team")
+    client = MockJevClient(noul_names) if args.mock else None
     if client is None:
         try:
-            client = JevClient(load_api_key())
+            client = JevClient(load_api_key(), variant=args.variant)
         except JevError as exc:
             print(f"[jev] {exc}\n      Use --mock to test the pipeline offline.")
             return 1
@@ -199,20 +222,22 @@ def main(argv=None) -> int:
     val = sample_split(load_split("val"), args.n_val)
     test = sample_split(load_split("test"), args.n_test, seed=SEED + 1)
 
-    tag = "mock" if args.mock else MODEL
-    cache_path = CACHE_DIR / f"{tag}.jsonl"
-    pending = pd.concat([_pending(val, load_cache(cache_path)),
-                         _pending(test, load_cache(cache_path))])
-    tokens, cost = estimate_cost(pending["model_text"].tolist())
-    print(f"[jev] model={client.model}  val={len(val):,}  test={len(test):,}  "
+    cache_file = cache_path("mock" if args.mock else MODEL, args.variant)
+    qsha, legacy_ok = question_sha(args.variant), args.variant == "zeroshot"
+    cache = load_cache(cache_file)
+    pending = pd.concat([_pending(val, cache, qsha, legacy_ok),
+                         _pending(test, cache, qsha, legacy_ok)])
+    tokens, cost = estimate_cost(pending["model_text"].tolist(), args.variant)
+    print(f"[jev] variant={args.variant}  model={client.model}  "
+          f"val={len(val):,}  test={len(test):,}  "
           f"new requests={len(pending):,}  est. input tokens={tokens:,}  "
           f"est. cost=${cost:.2f}" + ("  (mock: free)" if args.mock else ""))
     if not args.mock and len(pending) and not args.yes:
         print("[jev] Nothing sent. Re-run with --yes to make these requests.")
         return 0
 
-    val_jev = classify_frame(client, val, cache_path, "val")
-    test_jev = classify_frame(client, test, cache_path, "test")
+    val_jev = classify_frame(client, val, cache_file, "val", qsha, legacy_ok)
+    test_jev = classify_frame(client, test, cache_file, "test", qsha, legacy_ok)
     results = {"jev": score(val, val_jev, test, test_jev)}
     probas = {"jev": test_jev}
     if not args.no_baseline:
@@ -222,10 +247,11 @@ def main(argv=None) -> int:
         results["improved_model_1"] = score(val, val_im1, test, test_im1)
         probas["improved_model_1"] = test_im1
 
-    cache = load_cache(cache_path)
+    cache = load_cache(cache_file)
     used = [cache[str(c)] for c in pd.concat([val, test])["complaint_id"]]
     run_info = {
-        "mock": args.mock, "requested_model": client.model,
+        "mock": args.mock, "variant": args.variant, "question_sha": qsha,
+        "requested_model": client.model,
         "answering_models": sorted({u["model"] for u in used}),
         "n_val": len(val), "n_test": len(test), "seed": SEED,
         "input_tokens": int(sum(u["input_tokens"] for u in used)),
@@ -236,6 +262,8 @@ def main(argv=None) -> int:
     }
     # Mock output stays in the gitignored cache so it cannot pass for results.
     out_dir = CACHE_DIR / "mock_artifacts" if args.mock else ARTIFACT_DIR
+    if args.variant != "zeroshot":
+        out_dir = out_dir / args.variant
     write_artifacts(out_dir, results, run_info, test, probas)
 
     print("\n[results] test sample" + ("  (MOCK: scores are meaningless)"

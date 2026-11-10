@@ -1,4 +1,5 @@
 {
+  "variant": "zeroshot",
   "target_precision": 0.95,
   "n_val": 2000,
   "n_test": 2000,
@@ -23,5 +24,211 @@
   "jev_calibration": {
     "ece_test_raw": 0.1118,
     "ece_test_isotonic": 0.0187
+  },
+  "per_team_thresholds": {
+    "jev": {
+      "coverage": 0.461,
+      "precision": 0.9425,
+      "coverage_95ci": [
+        0.438,
+        0.4835
+      ],
+      "precision_95ci": [
+        0.9276,
+        0.9573
+      ],
+      "per_team": [
+        {
+          "team_id": "T01",
+          "team_name": "Credit Reporting Team",
+          "threshold": 0.922,
+          "n_routed_to": 842,
+          "precision_routed": 0.9442,
+          "auto_routed_share": 0.7451
+        },
+        {
+          "team_id": "T02",
+          "team_name": "Debt Collection Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.1296
+        },
+        {
+          "team_id": "T03",
+          "team_name": "Credit Card Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0595
+        },
+        {
+          "team_id": "T04",
+          "team_name": "Banking Accounts Team",
+          "threshold": 0.862,
+          "n_routed_to": 80,
+          "precision_routed": 0.925,
+          "auto_routed_share": 0.4032
+        },
+        {
+          "team_id": "T05",
+          "team_name": "Money Transfers & Digital Currency Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0455
+        },
+        {
+          "team_id": "T06",
+          "team_name": "Mortgage Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0154
+        },
+        {
+          "team_id": "T07",
+          "team_name": "Student Loan Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T08",
+          "team_name": "Vehicle Finance Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0169
+        },
+        {
+          "team_id": "T09",
+          "team_name": "Personal & Short-Term Loans Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T10",
+          "team_name": "Prepaid Card Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T11",
+          "team_name": "Debt & Credit Management Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        }
+      ]
+    },
+    "improved_model_1": {
+      "coverage": 0.5155,
+      "precision": 0.9486,
+      "coverage_95ci": [
+        0.492,
+        0.538
+      ],
+      "precision_95ci": [
+        0.9354,
+        0.9622
+      ],
+      "per_team": [
+        {
+          "team_id": "T01",
+          "team_name": "Credit Reporting Team",
+          "threshold": 0.726,
+          "n_routed_to": 918,
+          "precision_routed": 0.951,
+          "auto_routed_share": 0.8182
+        },
+        {
+          "team_id": "T02",
+          "team_name": "Debt Collection Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.1
+        },
+        {
+          "team_id": "T03",
+          "team_name": "Credit Card Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0833
+        },
+        {
+          "team_id": "T04",
+          "team_name": "Banking Accounts Team",
+          "threshold": 0.754,
+          "n_routed_to": 113,
+          "precision_routed": 0.9292,
+          "auto_routed_share": 0.5699
+        },
+        {
+          "team_id": "T05",
+          "team_name": "Money Transfers & Digital Currency Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0545
+        },
+        {
+          "team_id": "T06",
+          "team_name": "Mortgage Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0154
+        },
+        {
+          "team_id": "T07",
+          "team_name": "Student Loan Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T08",
+          "team_name": "Vehicle Finance Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0678
+        },
+        {
+          "team_id": "T09",
+          "team_name": "Personal & Short-Term Loans Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T10",
+          "team_name": "Prepaid Card Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        },
+        {
+          "team_id": "T11",
+          "team_name": "Debt & Credit Management Team",
+          "threshold": NaN,
+          "n_routed_to": 0,
+          "precision_routed": NaN,
+          "auto_routed_share": 0.0
+        }
+      ]
+    }
   }
 }

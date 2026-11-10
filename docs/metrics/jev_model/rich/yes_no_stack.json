@@ -1,0 +1,24 @@
+{
+  "variant": "rich",
+  "target_precision": 0.95,
+  "n_val": 2000,
+  "n_test": 2000,
+  "jev_top_probability_only": {
+    "best_val_precision": 0.9398,
+    "test_at_1.00": {
+      "threshold": 1.0,
+      "coverage": 0.58,
+      "precision": 0.944,
+      "n_routed": 1160
+    }
+  },
+  "jev_with_yes_no_checks": {
+    "threshold_fit_on_validation": 0.924,
+    "test": {
+      "threshold": 0.924,
+      "coverage": 0.464,
+      "precision": 0.9429,
+      "n_routed": 928
+    }
+  }
+}

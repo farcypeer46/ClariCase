@@ -1,0 +1,105 @@
+{
+  "source_split": "train_cap_issue",
+  "seed": 42,
+  "per_team": 3,
+  "examples": {
+    "T01": [
+      {
+        "complaint_id": "11298346",
+        "text": "Hello, I am requesting an investigation into these accounts due to a possiblemisunderstanding about their accuracy on my credit report. These accounts were removed previously but have been re-added without my awareness. I was not notified of their return and have not received any communication about this matter by mail."
+      },
+      {
+        "complaint_id": "9233408",
+        "text": "ChexSystems XXXX XXXX XXXX XXXX XXXX XXXXXXXX XXXX XXXX Dear sir, I have received a letter from the XXXX XXXX XXXX to contact with your company for the consumer credit report. Your company already added security alert in XXXX of this year, XXXX. Even though the letter indicated to request its office in XXXX, I contact with your office in XXXX, since your office created my file. \nSincerely,"
+      },
+      {
+        "complaint_id": "9331968",
+        "text": "I am writing to urgently follow up on my previous dispute regarding the negative accounts listed on my credit report. As of today, I have not received a resolution, and the inaccuracies persist, adversely impacting my credit score and financial standing."
+      }
+    ],
+    "T02": [
+      {
+        "complaint_id": "8609042",
+        "text": "On XX/XX/2024, the creditor sent two separate emails to my parents, providing them all information about my debt, including amounts owed. I never provided them with these emails as being okay to contact. \n\nMy parents now know very personal information about my debt history and it has caused extreme interpersonal and family problems due to this, all because of the credit collector recklessly giving them this information without my permission."
+      },
+      {
+        "complaint_id": "8116014",
+        "text": "I've tried years to remove this. It's not mine. I don't have a contract with this debt collector. It's a certificate of indebtness why does this company not know the law and is still reporting it? I can't get any loans for my business. This collection has really done harm to my life."
+      },
+      {
+        "complaint_id": "10665395",
+        "text": "On XX/XX/year> debt collector named Jefferson capital system have opened a collection account on my credit report in the amount {$810.00}. HAVE NOT SUPPLIED PROOF UNDER THE DOCTRINE OF ESTOPPEL BY SILENCE. \nXXXX. V GRAVENS ( MO ) XXXX XXXX, XXXX | PRESUME THAT PROOF OF THE ALLEGED DEBT, NOR THEREFORE ANY SUCH DEBT, IN FACT THEREFORE EXISTS."
+      }
+    ],
+    "T04": [
+      {
+        "complaint_id": "14244033",
+        "text": "Subject : Fraudulent Bank of America Checking Account Request for Deletion Details : I discovered that a checking account has been opened with Bank of America in my name, which I did not authorize or apply for. I suspect this account is the result of fraud or identity theft. I have no relationship with Bank of America and did not consent to the opening of any accounts."
+      },
+      {
+        "complaint_id": "11642507",
+        "text": "I have ahead navy federal since 2017. I have had many questionable overdraft fees. I have had to pay them even though I questioned why they allowed the transactions to go through."
+      },
+      {
+        "complaint_id": "12023436",
+        "text": "I have fraud in the account I called the company told them they been taking money from me for months with out my permission thry told me to called that bank do fraud claim that they would collaborate and I did fraudclaim now the bank are reversing the provisional credit now I'm OVERDRAFT XXXX XXXX When I explain everything to the bank I even i send police report as well."
+      }
+    ],
+    "T05": [
+      {
+        "complaint_id": "9776104",
+        "text": "I used to use the Abra app for purchasing crypto currencies and was told by them today that they quit supporting the Abra wallet app. I was never notified of this by them. They are now saying that all funds not withdrawn from their app already are to be considered lost."
+      },
+      {
+        "complaint_id": "10586473",
+        "text": "Cash App has allowed fraudsters/scammers to be allowed on their platform. I have tried to address the issue and they just allowed to payment to go through for {$400.00} and told me all I can do is to request it back. Then still continues to allow them even after my complaint to use their platform meaning they don't care about my issue or care to address it."
+      },
+      {
+        "complaint_id": "11518553",
+        "text": "I am writing to formally express my concern regarding Zelles handling of disputes, particularly in light of the recent CFPBs issue with the platform. The CFPBs findings indicate that Zelle has not only neglected to protect consumers but has allowed repeat offenders to exploit the system, leaving users vulnerable to scams. This lack of accountability is unacceptable and raises serious concerns about consumer safety."
+      }
+    ],
+    "T09": [
+      {
+        "complaint_id": "12420785",
+        "text": "I received a letter from SecureOne Financial offering a personal loan. The letter looks just like the government sent it. When you open it, a check is included that looks just like an IRS check. I did not request the personal loan. Therefore, they are phishing."
+      },
+      {
+        "complaint_id": "10184051",
+        "text": "I received a live check for an installment loan but its required to call them first to get an approval code. The check expired XX/XX/year>. XXXX made 7 calls XXXX trying to get this code and all I ever get is to leave a message and I never receive a call back. I feel like this is a scam and at best false advertising"
+      },
+      {
+        "complaint_id": "11996117",
+        "text": "Payday loans targeted me with exorbitant interest rates of 566 %, trapping me in a cycle of debt. As a veteran, I was misled by deceptive practices and hidden fees, making it impossible to repay the loan without facing severe financial hardship."
+      }
+    ],
+    "T10": [
+      {
+        "complaint_id": "8667306",
+        "text": "on XX/XX/24 i went to target to buy an Amex prepaid giftcard since then i have been trying to use the card but each time it is declined and a XXXX cent fee is taken out"
+      },
+      {
+        "complaint_id": "10000583",
+        "text": "I bought my prepaid visa card on XXXX, And I tried buying stuff on XXXX and XXXX and It wouldnt accept, I put XXXX on the XXXX XXXX I need help, It wont even let me see my card info in XXXX"
+      },
+      {
+        "complaint_id": "8169222",
+        "text": "I purchased {$150.00} gift card from XXXX and soon after it was lost/stolen. I reached out to the company and they put a hold on the card but didnt send me another card or try to help me at all to get my funds back."
+      }
+    ],
+    "T11": [
+      {
+        "complaint_id": "14288490",
+        "text": "I terminated my contract with Freedom debt relief on XX/XX/XXXX. There customer service rep XXXX, told me specifically since I terminated my contract with them before they tried to collect there service fees of XXXX dollars and plus the settlement amount of XXXX towards the debt collects. That I would receive my full funds of my escrow savings account since being with them from XX/XX/XXXX to now XXXX, XXXX, XXXX."
+      },
+      {
+        "complaint_id": "9085378",
+        "text": "XX/XX/XXXXXX/XX/XXXXXXXX keeps sending me emails and that was over XXXX XXXX XXXX. XX/XX/XXXXXXXX keeps sending me mail and it was over XXXX XXXX XXXX. Affirm keeps sending me emails and that was over XXXX XXXX XXXX ; XXXXXX/XX/XXXX was a credit repair card and it still charging me {$70.00} I sent them a dispute XXXX times they never reported to my credit bureau that I sent them a dispute."
+      },
+      {
+        "complaint_id": "11263117",
+        "text": "I signed up for Lexington law credit repair paid a monthly fee for XXXX years and my credit score did not change items returned changes"
+      }
+    ]
+  }
+}
